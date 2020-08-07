@@ -2,22 +2,29 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:rxdart/rxdart.dart';
+import 'package:wasteagram/bloc/stream_transformers/item_transformer.dart';
+import 'package:wasteagram/models/wasted_item.dart';
 import 'package:wasteagram/services/waste_service.dart';
 
 class WasteBloc {
   final WasteService _wasteService;
 
-  //Inputs - coming from app, going to firebase.
+  //Inputs - coming from wasteagram.
   StreamController<AddWasteItem> addWasteItemSink =
       StreamController<AddWasteItem>();
 
-  //Outputs - coming from firebase, going to app.
-  Stream<Map> get wastedItems => _wastedItemsStreamController.stream;
-  StreamController<Map> _wastedItemsStreamController =
-      BehaviorSubject<Map>(seedValue: {});
+  //Outputs - either going to wasteagram or uses services to Firebase.
+  Stream<List> get wastedItems => _wastedItemsStreamController.stream;
+  StreamController<List> _wastedItemsStreamController =
+      BehaviorSubject<List>(seedValue: null);
 
   WasteBloc(this._wasteService) {
     addWasteItemSink.stream.listen(_handleAddWasteItem);
+    _wasteService.wastedItems
+        .transform(DocumentToItemTransformer())
+        .listen((items) {
+      _wastedItemsStreamController.add(items);
+    });
   }
 
   void _handleAddWasteItem(AddWasteItem item) {

@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class WasteService {
-  Stream<QuerySnapshot> wastedItems() {
-    return Firestore.instance.collection('wasteagram').snapshots();
+  Stream<QuerySnapshot> get wastedItems {
+    return Firestore.instance.collection('foodWaste').snapshots();
   }
 
   Future addWastedItem({String name, int count, Image image, DateTime date}) {
