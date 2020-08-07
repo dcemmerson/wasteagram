@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>295557236829-d4dh9e7akhljel10k57l6k3gp65593ep.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.295557236829-d4dh9e7akhljel10k57l6k3gp65593ep</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAkQpHHNSpab3M8pWZMVhhwE3yEsaOoCUw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>295557236829</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.wasteagram</string>
+	<key>PROJECT_ID</key>
+	<string>wasteagram-d2a0f</string>
+	<key>STORAGE_BUCKET</key>
+	<string>wasteagram-d2a0f.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:295557236829:ios:f25ae1327425d9424965b4</string>
+	<key>DATABASE_URL</key>
+	<string>https://wasteagram-d2a0f.firebaseio.com</string>
+</dict>
+</plist>
