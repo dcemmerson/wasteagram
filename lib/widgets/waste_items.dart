@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wasteagram/bloc/waste_bloc.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
 import 'package:wasteagram/models/wasted_item.dart';
+import 'package:wasteagram/routes/routes.dart';
 import 'package:wasteagram/utils/date.dart';
 import 'package:wasteagram/utils/styles.dart';
 
@@ -29,7 +30,7 @@ class _WasteItemsState extends State<WasteItems> {
         Text(' (' + Date.dayOfWeek(document.date) + ')'),
       ]),
       trailing: Text(document.count.toString()),
-      onTap: () => print(document),
+      onTap: () => Routes.wasteDetailPage(context, item: document),
     );
   }
 
