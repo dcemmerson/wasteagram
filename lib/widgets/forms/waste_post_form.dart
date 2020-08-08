@@ -6,8 +6,20 @@ class WastePostForm extends StatefulWidget {
 }
 
 class _WastePostFormState extends State<WastePostForm> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            TextFormField(
+              decoration: InputDecoration(
+                  labelText: 'Item', border: OutlineInputBorder()),
+            ),
+            TextFormField()
+          ],
+        ));
   }
 }

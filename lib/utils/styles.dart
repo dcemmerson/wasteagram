@@ -20,4 +20,5 @@ class AppPadding {
   static const p4 = 7.5;
   static const p5 = 10.0;
   static const p6 = 15.0;
+  static const p7 = 20.0;
 }
