@@ -10,9 +10,11 @@ class LoadingContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
         label: message,
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        child: Center(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(message, style: TextStyle(fontSize: AppFonts.h6)),
           CircularProgressIndicator(),
-        ]));
+        ])));
   }
 }

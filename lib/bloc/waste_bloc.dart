@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
+import 'package:location/location.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wasteagram/bloc/stream_transformers/item_transformer.dart';
-import 'package:wasteagram/models/wasted_item.dart';
 import 'package:wasteagram/services/network/waste_service.dart';
 
 class WasteBloc {
@@ -12,14 +14,21 @@ class WasteBloc {
   //Inputs - coming from wasteagram.
   StreamController<AddWasteItem> addWasteItemSink =
       StreamController<AddWasteItem>();
+  StreamController<PhotoTaken> photoTakenSink = StreamController<PhotoTaken>();
 
   //Outputs - either going to wasteagram or uses services to Firebase.
   Stream<List> get wastedItems => _wastedItemsStreamController.stream;
   StreamController<List> _wastedItemsStreamController =
       BehaviorSubject<List>(seedValue: null);
 
+  Stream<PhotoTaken> get photoTaken => _photoTakenStreamController.stream;
+  StreamController<PhotoTaken> _photoTakenStreamController =
+      BehaviorSubject<PhotoTaken>(seedValue: null);
+
   WasteBloc(this._wasteService) {
     addWasteItemSink.stream.listen(_handleAddWasteItem);
+    photoTakenSink.stream.listen(_handlePhotoTaken);
+
     _wasteService.wastedItems
         .transform(DocumentToItemTransformer())
         .listen((items) {
@@ -32,9 +41,15 @@ class WasteBloc {
         name: item.name, count: item.count, date: item.date, image: item.image);
   }
 
+  void _handlePhotoTaken(PhotoTaken photoTaken) {
+    _photoTakenStreamController.add(photoTaken);
+  }
+
   close() {
     addWasteItemSink.close();
     _wastedItemsStreamController.close();
+    photoTakenSink.close();
+    _photoTakenStreamController.close();
   }
 }
 
@@ -45,4 +60,11 @@ class AddWasteItem {
   final Image image;
 
   AddWasteItem(this.name, this.count, this.date, this.image);
+}
+
+class PhotoTaken {
+  final File photo;
+  final LocationData locationData;
+
+  PhotoTaken({@required this.photo, @required this.locationData});
 }

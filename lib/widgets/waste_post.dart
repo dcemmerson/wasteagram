@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:wasteagram/bloc/waste_bloc.dart';
+import 'package:wasteagram/bloc/wasteagram_state.dart';
 import 'package:wasteagram/services/hardware/image_picker_manager.dart';
 import 'package:wasteagram/services/hardware/location_manager.dart';
 
@@ -11,48 +13,80 @@ import 'package:wasteagram/widgets/loading_content.dart';
 import 'package:wasteagram/widgets/location_denied.dart';
 
 class WastePost extends StatefulWidget {
+  final ImagePickerManager _imagePickerManager;
+  final LocationManager _locationManager;
+
+  WastePost()
+      : _imagePickerManager = ImagePickerManager.getInstance(),
+        _locationManager = LocationManager.getInstance();
+
   @override
   _WastePostState createState() => _WastePostState();
 }
 
 class _WastePostState extends State<WastePost> {
-  final ImagePickerManager _imagePickerManager;
-  final LocationManager _locationManager;
+  WasteBloc _bloc;
 
-  Future<LocationData> locationData;
-  Future<File> photoFile;
-
-  _WastePostState()
-      : _imagePickerManager = ImagePickerManager.getInstance(),
-        _locationManager = LocationManager.getInstance();
+  Future<LocationData> locationDataF;
+  Future<File> photoFileF;
+  LocationData locationData;
+  File photoFile;
 
   @override
   void initState() {
     super.initState();
-    locationData = _locationManager.getUserLocation();
-    photoFile = _imagePickerManager.getImage();
+    locationDataF = widget._locationManager.getUserLocation();
+    photoFileF = widget._imagePickerManager.getImage();
+  }
+
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _bloc = WasteagramStateContainer.of(context).blocProvider.wasteBloc;
   }
 
   Widget _pickImage() {
     return FutureBuilder(
-        future: photoFile,
+        future: photoFileF,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            return WastePostForm();
-          } else if (snapshot.hasError == null) {
-            return ErrorMessage(message: 'An error seems to have occurred');
-          } else {
-            return LoadingContent(message: 'Choosing a photo...');
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              return const Text('You have not picked an image yet');
+            case ConnectionState.done:
+              if (snapshot.data != null) {
+                // add to image sink
+                photoFile = snapshot.data;
+                print(snapshot.data);
+                _bloc.photoTakenSink.add(
+                    PhotoTaken(locationData: locationData, photo: photoFile));
+                return WastePostForm();
+              }
+              return Column(
+                children: [
+                  Text('Please pick an image'),
+                  FlatButton(
+                      onPressed: () =>
+                          photoFileF = widget._imagePickerManager.getImage(),
+                      child: Icon(Icons.ac_unit))
+                ],
+              );
+
+            default:
+              if (snapshot.hasError) {
+                return const Text('Error');
+              } else {
+                return const Text('No image picked yet');
+              }
           }
         });
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _askUserLocation() {
     return FutureBuilder(
-      future: locationData,
+      future: locationDataF,
       builder: (BuildContext context, AsyncSnapshot<LocationData> snapshot) {
         if (snapshot.hasData) {
+          locationData = snapshot.data;
           return _pickImage();
         } else if (snapshot.data == null) {
           return LocationDenied();
@@ -63,5 +97,15 @@ class _WastePostState extends State<WastePost> {
         }
       },
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Before rendering actual form (aka WastePostForm):
+    // first make sure we can access the user's location, then we have the user
+    // either take a photo or select a photo from gallery. If user declines
+    // any permissions, or device does not have necesary hardware, just display
+    // message to user stating permissions/device hardware needed to continue.
+    return _askUserLocation();
   }
 }

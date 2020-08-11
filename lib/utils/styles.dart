@@ -14,6 +14,7 @@ class AppFonts {
 }
 
 class AppPadding {
+  static const p0 = 0.0;
   static const p1 = 1.0;
   static const p2 = 3.0;
   static const p3 = 5.0;
