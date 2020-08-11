@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wasteagram/utils/styles.dart';
 
 class WastePostForm extends StatefulWidget {
   @override
@@ -10,16 +11,19 @@ class _WastePostFormState extends State<WastePostForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            TextFormField(
-              decoration: InputDecoration(
-                  labelText: 'Item', border: OutlineInputBorder()),
-            ),
-            TextFormField()
-          ],
-        ));
+    return Padding(
+        padding: EdgeInsets.fromLTRB(
+            AppPadding.p5, AppPadding.p7, AppPadding.p5, AppPadding.p5),
+        child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(
+                      labelText: 'Item', border: OutlineInputBorder()),
+                ),
+                TextFormField()
+              ],
+            )));
   }
 }

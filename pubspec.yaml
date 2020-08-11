@@ -21,6 +21,8 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  location: ^3.0.0
+  image_picker: ^0.6.7+4
   cloud_firestore: ^0.13.7
   flutter:
     sdk: flutter

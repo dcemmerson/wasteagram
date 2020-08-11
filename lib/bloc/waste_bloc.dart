@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:rxdart/rxdart.dart';
 import 'package:wasteagram/bloc/stream_transformers/item_transformer.dart';
 import 'package:wasteagram/models/wasted_item.dart';
-import 'package:wasteagram/services/waste_service.dart';
+import 'package:wasteagram/services/network/waste_service.dart';
 
 class WasteBloc {
   final WasteService _wasteService;

@@ -10,7 +10,7 @@ import 'package:wasteagram/app.dart';
 import 'package:wasteagram/bloc/bloc_provider.dart';
 import 'package:wasteagram/bloc/waste_bloc.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
-import 'package:wasteagram/services/waste_service.dart';
+import 'package:wasteagram/services/network/waste_service.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
