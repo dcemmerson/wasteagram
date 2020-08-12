@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:wasteagram/bloc/waste_bloc.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
@@ -28,6 +29,8 @@ class WastePost extends StatefulWidget {
 class _WastePostState extends State<WastePost> {
   WasteBloc _bloc;
 
+  ImageSource imageSource = ImageSource.camera;
+
   Future<LocationData> locationDataF;
   Future<File> photoFileF;
   LocationData locationData;
@@ -45,7 +48,7 @@ class _WastePostState extends State<WastePost> {
   }
 
   Widget _pickImage() {
-    photoFileF = widget._imagePickerManager.getImageFromCamera();
+    photoFileF = widget._imagePickerManager.getImage(imageSource: imageSource);
     return FutureBuilder(
         future: photoFileF,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -64,8 +67,8 @@ class _WastePostState extends State<WastePost> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   FlatButton(
-                      onPressed: () => photoFileF =
-                          widget._imagePickerManager.getImageFromCamera(),
+                      onPressed: () =>
+                          setState(() => imageSource = ImageSource.camera),
                       child: Padding(
                           padding: EdgeInsets.all(AppPadding.p7),
                           child: Row(
@@ -77,8 +80,8 @@ class _WastePostState extends State<WastePost> {
                                     child: Icon(Icons.photo_camera))
                               ]))),
                   FlatButton(
-                      onPressed: () => photoFileF =
-                          widget._imagePickerManager.getImageFromGallery(),
+                      onPressed: () =>
+                          setState(() => imageSource = ImageSource.gallery),
                       child: Padding(
                           padding: EdgeInsets.all(AppPadding.p7),
                           child: Row(

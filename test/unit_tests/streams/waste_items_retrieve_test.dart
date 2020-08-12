@@ -15,7 +15,6 @@ void wasteItemsRetrieveTest() {
 
       await for (var items in wasteBloc.wastedItems) {
         for (var item in items) {
-          print(item.date.toString() + ', ' + item.name.toString());
           expect(item.name, MockWasteService.mockWasteItems[index].name);
           expect(item.count, MockWasteService.mockWasteItems[index].count);
           expect(item.date, MockWasteService.mockWasteItems[index].date);
@@ -28,6 +27,7 @@ void wasteItemsRetrieveTest() {
 
           index++;
         }
+        break;
       }
       // expect(wasteBloc.wastedItems,
       //     emitsInOrder(MockWasteService.orderedMockWasteItems));
