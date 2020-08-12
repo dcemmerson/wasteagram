@@ -6,7 +6,10 @@ import 'package:location/location.dart';
 
 class WasteService {
   Stream<QuerySnapshot> get wastedItems {
-    return Firestore.instance.collection('foodWaste').snapshots();
+    return Firestore.instance
+        .collection('foodWaste')
+        .orderBy('date')
+        .snapshots();
   }
 
   Future addWastedItem(
