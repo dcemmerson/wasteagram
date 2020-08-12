@@ -17,9 +17,15 @@ class DocumentToItemTransformer<S, T> extends StreamTransformerBase<S, T> {
         controller = new StreamController<T>(
           onListen: () {
             subscription = inputStream.listen((snapshot) {
-              List wastedItems = snapshot.documents
-                  .map((document) => WastedItem.fromDocument(document))
-                  .toList();
+              List wastedItems = snapshot.documents.map((document) {
+                try {
+                  return WastedItem.fromDocument(document);
+                } catch (err) {
+                  // For testing purposes. firestore_mock does not seem to work
+                  // in an identical manner to firestore.
+                  return WastedItem.fromMap(document.data);
+                }
+              }).toList();
 
               controller.add(wastedItems);
             },

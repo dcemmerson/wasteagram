@@ -38,11 +38,12 @@ class WasteBloc {
   void _handleAddWasteItem(AddWasteItem item) {
     item.date.millisecondsSinceEpoch;
     _wasteService.addWastedItem(
-        name: item.name,
-        count: item.count,
-        date: item.date,
-        photo: item.photo,
-        locationData: item.locationData);
+      name: item.name,
+      count: item.count,
+      date: item.date,
+      photo: item.photo,
+      locationData: item.locationData,
+    );
   }
 
   void _handlePhotoTaken(PhotoTaken photoTaken) {

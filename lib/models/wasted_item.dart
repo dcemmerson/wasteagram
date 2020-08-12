@@ -10,13 +10,14 @@ class WastedItem {
   final Timestamp date;
   final GeoPoint location;
 
-  const WastedItem(
-      {this.name,
-      this.count,
-      this.image,
-      this.imageUrl,
-      this.date,
-      this.location});
+  const WastedItem({
+    this.name,
+    this.count,
+    this.image,
+    this.imageUrl,
+    this.date,
+    this.location,
+  });
 
   WastedItem.fromMap(Map<String, dynamic> map)
       : this.name = map['name'],
@@ -24,7 +25,7 @@ class WastedItem {
         this.image = map['image'],
         this.imageUrl = map['imageUrl'],
         this.date = map['date'],
-        this.location = map['locationData'];
+        this.location = map['location'];
 
   WastedItem.fromDocument(DocumentSnapshot doc)
       : this.name = doc['name'],
