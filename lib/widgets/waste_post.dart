@@ -6,11 +6,12 @@ import 'package:wasteagram/bloc/waste_bloc.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
 import 'package:wasteagram/services/hardware/image_picker_manager.dart';
 import 'package:wasteagram/services/hardware/location_manager.dart';
+import 'package:wasteagram/utils/styles.dart';
 
-import 'package:wasteagram/widgets/error_message.dart';
+import 'package:wasteagram/widgets/misc/error_message.dart';
 import 'package:wasteagram/widgets/forms/waste_post_form.dart';
-import 'package:wasteagram/widgets/loading_content.dart';
-import 'package:wasteagram/widgets/location_denied.dart';
+import 'package:wasteagram/widgets/misc/loading_content.dart';
+import 'package:wasteagram/widgets/misc/location_denied.dart';
 
 class WastePost extends StatefulWidget {
   final ImagePickerManager _imagePickerManager;
@@ -44,7 +45,7 @@ class _WastePostState extends State<WastePost> {
   }
 
   Widget _pickImage() {
-    photoFileF = widget._imagePickerManager.getImage();
+    photoFileF = widget._imagePickerManager.getImageFromCamera();
     return FutureBuilder(
         future: photoFileF,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -59,17 +60,37 @@ class _WastePostState extends State<WastePost> {
                     PhotoTaken(locationData: locationData, photo: photoFile));
                 return WastePostForm();
               }
-              return Center(
-                  child: Column(
+              return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Take photo'),
                   FlatButton(
-                      onPressed: () =>
-                          photoFileF = widget._imagePickerManager.getImage(),
-                      child: Icon(Icons.photo_camera))
+                      onPressed: () => photoFileF =
+                          widget._imagePickerManager.getImageFromCamera(),
+                      child: Padding(
+                          padding: EdgeInsets.all(AppPadding.p7),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Take photo'),
+                                Padding(
+                                    padding: EdgeInsets.all(AppPadding.p4),
+                                    child: Icon(Icons.photo_camera))
+                              ]))),
+                  FlatButton(
+                      onPressed: () => photoFileF =
+                          widget._imagePickerManager.getImageFromGallery(),
+                      child: Padding(
+                          padding: EdgeInsets.all(AppPadding.p7),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('From gallery'),
+                                Padding(
+                                    padding: EdgeInsets.all(AppPadding.p4),
+                                    child: Icon(Icons.photo_library))
+                              ])))
                 ],
-              ));
+              );
             default:
               if (snapshot.hasError) {
                 return const Text('Error');

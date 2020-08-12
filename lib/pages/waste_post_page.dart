@@ -3,7 +3,7 @@ import 'package:wasteagram/widgets/waste_post.dart';
 
 class WastePostPage extends StatefulWidget {
   static const route = '/waste_post';
-  static const title = 'Add Some Waste';
+  static const title = 'New Waste Post';
 
   @override
   _WastePostPageState createState() => _WastePostPageState();

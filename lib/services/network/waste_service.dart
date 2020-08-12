@@ -8,7 +8,7 @@ class WasteService {
   Stream<QuerySnapshot> get wastedItems {
     return Firestore.instance
         .collection('foodWaste')
-        .orderBy('date')
+        .orderBy('date', descending: true)
         .snapshots();
   }
 

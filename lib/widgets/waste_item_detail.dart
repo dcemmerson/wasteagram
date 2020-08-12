@@ -4,6 +4,24 @@ import 'package:wasteagram/utils/date.dart';
 import 'package:wasteagram/utils/styles.dart';
 
 class WasteItemDetail extends StatelessWidget {
+  Widget _imageFromNetwork(String url) {
+    return Image.network(
+      url,
+      loadingBuilder: (context, child, loadingProgress) {
+        print(loadingProgress);
+        if (loadingProgress != null) {
+          return Center(
+              child: Padding(
+                  padding: EdgeInsets.all(AppPadding.p6),
+                  child: LinearProgressIndicator(
+                      value: loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes)));
+        }
+        return Expanded(child: FittedBox(fit: BoxFit.fitWidth, child: child));
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     WastedItem item = ModalRoute.of(context).settings.arguments as WastedItem;
@@ -31,10 +49,7 @@ class WasteItemDetail extends StatelessWidget {
                     style: TextStyle(fontSize: AppFonts.h6))),
           ],
         ),
-        Expanded(
-          child: FittedBox(
-              fit: BoxFit.fitWidth, child: Image.network(item.imageUrl)),
-        ),
+        _imageFromNetwork(item.imageUrl),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

@@ -16,8 +16,13 @@ class ImagePickerManager {
     return _instance;
   }
 
-  Future<File> getImage() async {
+  Future<File> getImageFromCamera() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
+    return File(pickedFile.path);
+  }
+
+  Future<File> getImageFromGallery() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
     return File(pickedFile.path);
   }
 }

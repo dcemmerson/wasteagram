@@ -5,7 +5,7 @@ import 'package:wasteagram/models/wasted_item.dart';
 import 'package:wasteagram/routes/routes.dart';
 import 'package:wasteagram/utils/date.dart';
 import 'package:wasteagram/utils/styles.dart';
-import 'package:wasteagram/widgets/waste_list_view/empty_post_list.dart';
+import 'package:wasteagram/widgets/waste_list_view/empty_post.dart';
 
 class WasteItems extends StatefulWidget {
   @override

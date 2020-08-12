@@ -8,7 +8,7 @@ import 'package:wasteagram/bloc/wasteagram_state.dart';
 import 'package:wasteagram/services/hardware/image_picker_manager.dart';
 import 'package:wasteagram/utils/styles.dart';
 import 'package:wasteagram/utils/validate.dart';
-import 'package:wasteagram/widgets/error_message.dart';
+import 'package:wasteagram/widgets/misc/error_message.dart';
 import 'package:wasteagram/widgets/forms/date_time_form_field.dart';
 
 class WastePostForm extends StatefulWidget {
