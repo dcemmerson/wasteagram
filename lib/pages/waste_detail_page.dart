@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wasteagram/widgets/waste_item_detail.dart';
-import 'package:wasteagram/widgets/waste_items.dart';
 
 class WasteDetailPage extends StatefulWidget {
   static const route = '/wastedetail';

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wasteagram/models/wasted_item.dart';
 
 class DocumentToItemTransformer<S, T> extends StreamTransformerBase<S, T> {

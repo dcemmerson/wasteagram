@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:location/location.dart';
@@ -37,8 +36,13 @@ class WasteBloc {
   }
 
   void _handleAddWasteItem(AddWasteItem item) {
+    item.date.millisecondsSinceEpoch;
     _wasteService.addWastedItem(
-        name: item.name, count: item.count, date: item.date, image: item.image);
+        name: item.name,
+        count: item.count,
+        date: item.date,
+        photo: item.photo,
+        locationData: item.locationData);
   }
 
   void _handlePhotoTaken(PhotoTaken photoTaken) {
@@ -54,12 +58,19 @@ class WasteBloc {
 }
 
 class AddWasteItem {
-  final String name;
-  final int count;
-  final DateTime date;
-  final Image image;
+  String name;
+  int count;
+  DateTime date;
+  File photo;
+  LocationData locationData;
 
-  AddWasteItem(this.name, this.count, this.date, this.image);
+  // AddWasteItem.fromMap({
+  //   @required this.name,
+  //   @required this.count,
+  //   @required this.date,
+  //   @required this.photo,
+  //   @required this.locationData,
+  // });
 }
 
 class PhotoTaken {

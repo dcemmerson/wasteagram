@@ -36,7 +36,6 @@ class _WastePostState extends State<WastePost> {
   void initState() {
     super.initState();
     locationDataF = widget._locationManager.getUserLocation();
-    photoFileF = widget._imagePickerManager.getImage();
   }
 
   void didChangeDependencies() {
@@ -45,32 +44,32 @@ class _WastePostState extends State<WastePost> {
   }
 
   Widget _pickImage() {
+    photoFileF = widget._imagePickerManager.getImage();
     return FutureBuilder(
         future: photoFileF,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
             case ConnectionState.waiting:
-              return const Text('You have not picked an image yet');
+              return const CircularProgressIndicator();
             case ConnectionState.done:
               if (snapshot.data != null) {
-                // add to image sink
                 photoFile = snapshot.data;
-                print(snapshot.data);
                 _bloc.photoTakenSink.add(
                     PhotoTaken(locationData: locationData, photo: photoFile));
                 return WastePostForm();
               }
-              return Column(
+              return Center(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Please pick an image'),
+                  Text('Take photo'),
                   FlatButton(
                       onPressed: () =>
                           photoFileF = widget._imagePickerManager.getImage(),
-                      child: Icon(Icons.ac_unit))
+                      child: Icon(Icons.photo_camera))
                 ],
-              );
-
+              ));
             default:
               if (snapshot.hasError) {
                 return const Text('Error');

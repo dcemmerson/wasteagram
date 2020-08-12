@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class Date {
   static const months = [
@@ -36,6 +37,6 @@ class Date {
 
   static String dayOfWeek(Timestamp timestamp) {
     DateTime date = timestamp.toDate();
-    return daysOfWeek[date.day - 1];
+    return DateFormat('EEEE').format(date).substring(0, 3);
   }
 }

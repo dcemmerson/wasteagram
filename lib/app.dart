@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wasteagram/pages/waste_page.dart';
 import 'package:wasteagram/routes/routes.dart';
 
 class WasteagramApp extends StatefulWidget {

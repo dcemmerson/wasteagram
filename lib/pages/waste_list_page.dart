@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wasteagram/widgets/waste_items.dart';
+import 'package:wasteagram/widgets/waste_list_view/waste_items.dart';
 
-class WastePage extends StatefulWidget {
+class WasteListPage extends StatefulWidget {
   static const route = '/';
   static const title = 'Waste Items';
 
@@ -9,7 +9,7 @@ class WastePage extends StatefulWidget {
   _WastePageState createState() => _WastePageState();
 }
 
-class _WastePageState extends State<WastePage> {
+class _WastePageState extends State<WasteListPage> {
   @override
   Widget build(BuildContext context) {
     return WasteItems();

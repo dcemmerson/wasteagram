@@ -5,6 +5,7 @@ import 'package:wasteagram/models/wasted_item.dart';
 import 'package:wasteagram/routes/routes.dart';
 import 'package:wasteagram/utils/date.dart';
 import 'package:wasteagram/utils/styles.dart';
+import 'package:wasteagram/widgets/waste_list_view/empty_post_list.dart';
 
 class WasteItems extends StatefulWidget {
   @override
@@ -43,11 +44,14 @@ class _WasteItemsState extends State<WasteItems> {
         if (!snapshot.hasData) {
           return CircularProgressIndicator();
         }
-
-        return ListView.builder(
-            itemCount: snapshot.data.length,
-            itemBuilder: (context, index) =>
-                _buildListItem(snapshot.data[index]));
+        if (snapshot.data.length < 1) {
+          return EmptyPostList();
+        } else {
+          return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, index) =>
+                  _buildListItem(snapshot.data[index]));
+        }
       },
     ));
   }

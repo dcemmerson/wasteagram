@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wasteagram/pages/base/page_base.dart';
 import 'package:wasteagram/pages/waste_detail_page.dart';
-import 'package:wasteagram/pages/waste_page.dart';
+import 'package:wasteagram/pages/waste_list_page.dart';
 import 'package:wasteagram/pages/waste_post_page.dart';
 import 'package:wasteagram/utils/styles.dart';
 
@@ -20,7 +20,7 @@ class PageContainer extends PageBase {
     var page;
     switch (pageType) {
       case PageType.WastePage:
-        page = WastePage();
+        page = WasteListPage();
         break;
       case PageType.WasteDetailPage:
         page = WasteDetailPage();
@@ -29,7 +29,7 @@ class PageContainer extends PageBase {
         page = WastePostPage();
         break;
       default:
-        page = WastePage();
+        page = WasteListPage();
     }
     return Padding(
       padding: EdgeInsets.zero,
@@ -41,7 +41,7 @@ class PageContainer extends PageBase {
   String get pageTitle {
     switch (pageType) {
       case PageType.WastePage:
-        return WastePage.title;
+        return WasteListPage.title;
       case PageType.WasteDetailPage:
         return WasteDetailPage.title;
       case PageType.WastePostPage:
