@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app_settings/app_settings.dart';
 
-import 'package:wasteagram/utils/styles.dart';
+import 'package:wasteagram/styles/styles.dart';
 
 class LocationDenied extends StatelessWidget {
   @override

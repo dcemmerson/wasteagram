@@ -4,7 +4,7 @@ import 'package:wasteagram/bloc/wasteagram_state.dart';
 import 'package:wasteagram/models/wasted_item.dart';
 import 'package:wasteagram/routes/routes.dart';
 import 'package:wasteagram/utils/date.dart';
-import 'package:wasteagram/utils/styles.dart';
+import 'package:wasteagram/styles/styles.dart';
 import 'package:wasteagram/widgets/waste_list_view/empty_post.dart';
 
 class WasteItems extends StatefulWidget {
@@ -21,7 +21,8 @@ class _WasteItemsState extends State<WasteItems> {
   }
 
   Widget _buildListItem(WastedItem document) {
-    return ListTile(
+    return Card(
+        child: ListTile(
       leading: const Icon(Icons.chevron_right),
       title: Row(children: [
         Text(
@@ -32,7 +33,7 @@ class _WasteItemsState extends State<WasteItems> {
       ]),
       trailing: Text(document.count.toString()),
       onTap: () => Routes.wasteDetailPage(context, item: document),
-    );
+    ));
   }
 
   @override
@@ -54,5 +55,6 @@ class _WasteItemsState extends State<WasteItems> {
         }
       },
     ));
+    ;
   }
 }

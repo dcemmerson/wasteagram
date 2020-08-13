@@ -7,7 +7,7 @@ import 'package:wasteagram/bloc/waste_bloc.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
 import 'package:wasteagram/services/hardware/image_picker_manager.dart';
 import 'package:wasteagram/services/hardware/location_manager.dart';
-import 'package:wasteagram/utils/styles.dart';
+import 'package:wasteagram/styles/styles.dart';
 
 import 'package:wasteagram/widgets/misc/error_message.dart';
 import 'package:wasteagram/widgets/forms/waste_post_form.dart';

@@ -3,7 +3,7 @@ import 'package:wasteagram/pages/base/page_base.dart';
 import 'package:wasteagram/pages/waste_detail_page.dart';
 import 'package:wasteagram/pages/waste_list_page.dart';
 import 'package:wasteagram/pages/waste_post_page.dart';
-import 'package:wasteagram/utils/styles.dart';
+import 'package:wasteagram/styles/styles.dart';
 
 class PageContainer extends PageBase {
   final PageType _pageType;
@@ -11,9 +11,6 @@ class PageContainer extends PageBase {
   PageContainer({Key key, @required pageType})
       : this._pageType = pageType,
         super(key: key);
-
-  @override
-  Color get backgroundColor => AppColors.background;
 
   @override
   Widget get body {

@@ -1,54 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:wasteagram/bloc/wasteagram_state.dart';
 import 'package:wasteagram/routes/routes.dart';
+import 'package:wasteagram/styles/theme_manager.dart';
+import 'package:wasteagram/widgets/theme/theme_drawer.dart';
+import 'package:wasteagram/widgets/theme/theme_drawer_icon.dart';
 
 enum PageType { WastePage, WasteDetailPage, WastePostPage }
 
 abstract class PageBase extends StatelessWidget {
+  ThemeManager themeManager;
+
   PageType get pageType;
 
-  Color get backgroundColor;
   String get pageTitle;
   Widget get body;
 
-  const PageBase({Key key}) : super(key: key);
+  PageBase({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    themeManager =
+        ThemeManager(darkMode: WasteagramStateContainer.of(context).isDarkMode);
     if (pageType == PageType.WastePage) {
-      return Scaffold(
-        backgroundColor: backgroundColor,
-        appBar: AppBar(
-          brightness: Brightness.light,
-          backgroundColor: Colors.blue,
-          elevation: 0.0,
-          title: Text(pageTitle),
-          textTheme: Theme.of(context).primaryTextTheme,
-          actions: <Widget>[
-//              AppBarCartIcon(),
-          ],
-        ),
-        //         drawer: menuDrawer,
-        body: body,
-        floatingActionButton: FloatingActionButton(
-            onPressed: () => Routes.addWastedPost(context),
-            child: Icon(Icons.add_a_photo)),
-      );
+      return Theme(
+          data: themeManager.themeData,
+          child: Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              elevation: 0.0,
+              title: Text(pageTitle),
+              textTheme: Theme.of(context).primaryTextTheme,
+              actions: [
+                ThemeDrawerIcon(),
+              ],
+            ),
+            endDrawer: ThemeDrawer(),
+            body: body,
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            floatingActionButton: FloatingActionButton(
+                onPressed: () => Routes.addWastedPost(context),
+                child: Icon(Icons.add_a_photo)),
+          ));
     } else {
-      return Scaffold(
-        backgroundColor: backgroundColor,
-        appBar: AppBar(
-          brightness: Brightness.light,
-          backgroundColor: Colors.blue,
-          elevation: 0.0,
-          title: Text(pageTitle),
-          textTheme: Theme.of(context).primaryTextTheme,
-          actions: <Widget>[
-//              AppBarCartIcon(),
-          ],
-        ),
-        //         drawer: menuDrawer,
-        body: body,
-      );
+      return Theme(
+          data: themeManager.themeData,
+          child: Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              elevation: 0.0,
+              title: Text(pageTitle),
+              textTheme: Theme.of(context).primaryTextTheme,
+              actions: [ThemeDrawerIcon()],
+            ),
+            endDrawer: ThemeDrawer(),
+            body: body,
+          ));
     }
   }
 }

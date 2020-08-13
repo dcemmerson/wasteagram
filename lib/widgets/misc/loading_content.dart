@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wasteagram/utils/styles.dart';
+import 'package:wasteagram/styles/styles.dart';
 
 class LoadingContent extends StatelessWidget {
   final message;

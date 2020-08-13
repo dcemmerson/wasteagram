@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wasteagram/models/wasted_item.dart';
 import 'package:wasteagram/utils/date.dart';
-import 'package:wasteagram/utils/styles.dart';
+import 'package:wasteagram/styles/styles.dart';
 
 class WasteItemDetail extends StatelessWidget {
   Widget _imageFromNetwork(String url) {
