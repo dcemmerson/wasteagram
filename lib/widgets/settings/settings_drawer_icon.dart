@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ThemeDrawerIcon extends StatelessWidget {
+class SettingsDrawerIcon extends StatelessWidget {
   void showThemeDrawer(BuildContext context) {
     Scaffold.of(context).openEndDrawer();
   }

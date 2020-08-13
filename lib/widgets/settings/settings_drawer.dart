@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
 import 'package:wasteagram/styles/styles.dart';
 
-class ThemeDrawer extends StatelessWidget {
+class SettingsDrawer extends StatelessWidget {
   final Key drawerKey = GlobalKey();
 
   DrawerHeader drawerHeader(BuildContext context) {
     return DrawerHeader(
         decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-        child: Text('Theme settings',
+        child: Text('Wasteagram settings',
             style: TextStyle(
                 fontSize: 24, color: Theme.of(context).primaryColorLight)));
   }

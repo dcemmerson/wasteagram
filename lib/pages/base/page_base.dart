@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
 import 'package:wasteagram/routes/routes.dart';
 import 'package:wasteagram/styles/theme_manager.dart';
-import 'package:wasteagram/widgets/theme/theme_drawer.dart';
-import 'package:wasteagram/widgets/theme/theme_drawer_icon.dart';
+import 'package:wasteagram/widgets/settings/settings_drawer.dart';
+import 'package:wasteagram/widgets/settings/settings_drawer_icon.dart';
 
 enum PageType { WastePage, WasteDetailPage, WastePostPage }
 
@@ -31,10 +31,10 @@ abstract class PageBase extends StatelessWidget {
               title: Text(pageTitle),
               textTheme: Theme.of(context).primaryTextTheme,
               actions: [
-                ThemeDrawerIcon(),
+                SettingsDrawerIcon(),
               ],
             ),
-            endDrawer: ThemeDrawer(),
+            endDrawer: SettingsDrawer(),
             body: body,
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             floatingActionButton: FloatingActionButton(
@@ -50,9 +50,9 @@ abstract class PageBase extends StatelessWidget {
               elevation: 0.0,
               title: Text(pageTitle),
               textTheme: Theme.of(context).primaryTextTheme,
-              actions: [ThemeDrawerIcon()],
+              actions: [SettingsDrawerIcon()],
             ),
-            endDrawer: ThemeDrawer(),
+            endDrawer: SettingsDrawer(),
             body: body,
           ));
     }
