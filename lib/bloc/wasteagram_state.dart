@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'bloc_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WasteagramStateContainer extends StatefulWidget {
+  static const prefsDarkMode = 'darkMode';
+
   final Widget child;
   final BlocProvider blocProvider;
 
@@ -21,11 +24,28 @@ class WasteagramStateContainer extends StatefulWidget {
 }
 
 class WasteagramState extends State<WasteagramStateContainer> {
+  SharedPreferences _prefs;
+
   BlocProvider get blocProvider => widget.blocProvider;
   bool isDarkMode = false;
 
+  @override
+  void initState() {
+    super.initState();
+    initSharedPrefs();
+  }
+
+  void initSharedPrefs() async {
+    _prefs = await SharedPreferences.getInstance();
+    var initialDarkMode =
+        _prefs.getBool(WasteagramStateContainer.prefsDarkMode);
+    setState(
+        () => isDarkMode = initialDarkMode is bool ? initialDarkMode : false);
+  }
+
   void toggleDarkMode() {
-    print('toggle');
+    _prefs.setBool(WasteagramStateContainer.prefsDarkMode, !isDarkMode);
+
     setState(() => isDarkMode = !isDarkMode);
   }
 
