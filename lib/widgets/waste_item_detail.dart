@@ -16,7 +16,7 @@ class WasteItemDetail extends StatelessWidget {
                       value: loadingProgress.cumulativeBytesLoaded /
                           loadingProgress.expectedTotalBytes)));
         }
-        return Expanded(child: FittedBox(fit: BoxFit.fitWidth, child: child));
+        return Expanded(child: FittedBox(fit: BoxFit.fill, child: child));
       },
     );
   }
