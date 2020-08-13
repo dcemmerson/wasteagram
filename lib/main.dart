@@ -6,6 +6,7 @@
 ///   https://github.com/ericwindmill/flutter_in_action_source_code/tree/master/chapter_7-8-9/e_commerce
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wasteagram/app.dart';
 import 'package:wasteagram/bloc/bloc_provider.dart';
 import 'package:wasteagram/bloc/waste_bloc.dart';
@@ -14,6 +15,13 @@ import 'package:wasteagram/services/network/waste_service.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.landscapeRight,
+    DeviceOrientation.portraitDown,
+  ]);
 
   var wasteService = WasteService();
   var wasteBloc = WasteBloc(wasteService);

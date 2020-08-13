@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class WasteagramStateContainer extends StatefulWidget {
   static const prefsDarkMode = 'darkMode';
+  static const prefsCompactWasteListMode = 'compactMode';
 
   final Widget child;
   final BlocProvider blocProvider;
@@ -28,6 +29,7 @@ class WasteagramState extends State<WasteagramStateContainer> {
 
   BlocProvider get blocProvider => widget.blocProvider;
   bool isDarkMode = false;
+  bool isCompactWasteListMode = true;
 
   @override
   void initState() {
@@ -41,12 +43,22 @@ class WasteagramState extends State<WasteagramStateContainer> {
         _prefs.getBool(WasteagramStateContainer.prefsDarkMode);
     setState(
         () => isDarkMode = initialDarkMode is bool ? initialDarkMode : false);
+    var initialCompactWasteListMode =
+        _prefs.getBool(WasteagramStateContainer.prefsCompactWasteListMode);
+    setState(() => isCompactWasteListMode = initialCompactWasteListMode is bool
+        ? initialCompactWasteListMode
+        : true);
   }
 
   void toggleDarkMode() {
     _prefs.setBool(WasteagramStateContainer.prefsDarkMode, !isDarkMode);
-
     setState(() => isDarkMode = !isDarkMode);
+  }
+
+  void toggleCompactWasteListMode() {
+    _prefs.setBool(WasteagramStateContainer.prefsCompactWasteListMode,
+        !isCompactWasteListMode);
+    setState(() => isCompactWasteListMode = !isCompactWasteListMode);
   }
 
   @override
@@ -55,6 +67,7 @@ class WasteagramState extends State<WasteagramStateContainer> {
     return _WasteagramContainer(
       wasteagramState: this,
       isDarkMode: isDarkMode,
+      isCompactWasteListMode: isCompactWasteListMode,
       blocProvider: widget.blocProvider,
       child: widget.child,
     );
@@ -65,6 +78,7 @@ class _WasteagramContainer extends InheritedWidget {
   final WasteagramState wasteagramState;
   final BlocProvider blocProvider;
   final bool isDarkMode;
+  final bool isCompactWasteListMode;
 
   _WasteagramContainer({
     Key key,
@@ -72,11 +86,13 @@ class _WasteagramContainer extends InheritedWidget {
     @required Widget child,
     @required this.blocProvider,
     @required this.isDarkMode,
+    @required this.isCompactWasteListMode,
   }) : super(key: key, child: child);
 
   @override
   bool updateShouldNotify(_WasteagramContainer oldWidget) {
     return oldWidget.wasteagramState != this.wasteagramState ||
-        oldWidget.isDarkMode != this.isDarkMode;
+        oldWidget.isDarkMode != this.isDarkMode ||
+        oldWidget.isCompactWasteListMode != this.isCompactWasteListMode;
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wasteagram/bloc/wasteagram_state.dart';
 import 'package:wasteagram/styles/styles.dart';
+import 'package:wasteagram/widgets/settings/compact_waste_list_switch.dart';
+
+import 'package:wasteagram/widgets/settings/theme_switch.dart';
 
 class SettingsDrawer extends StatelessWidget {
   final Key drawerKey = GlobalKey();
@@ -13,16 +15,6 @@ class SettingsDrawer extends StatelessWidget {
                 fontSize: 24, color: Theme.of(context).primaryColorLight)));
   }
 
-  Widget createThemeSwitch(BuildContext context) {
-    WasteagramState wasteagramState = WasteagramStateContainer.of(context);
-    return Row(children: [
-      Text('Dark Mode ', style: TextStyle(fontSize: AppFonts.h3)),
-      Switch(
-          value: wasteagramState.isDarkMode,
-          onChanged: (value) => wasteagramState.toggleDarkMode()),
-    ]);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -31,7 +23,16 @@ class SettingsDrawer extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
             drawerHeader(context),
-            createThemeSwitch(context),
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                  AppPadding.p7, AppPadding.p4, AppPadding.p7, AppPadding.p2),
+              child: ThemeSwitch(),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                  AppPadding.p7, AppPadding.p2, AppPadding.p7, AppPadding.p4),
+              child: CompactWasteListSwitch(),
+            ),
           ],
         ));
   }

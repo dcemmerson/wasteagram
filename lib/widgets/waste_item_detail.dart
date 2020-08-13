@@ -8,7 +8,6 @@ class WasteItemDetail extends StatelessWidget {
     return Image.network(
       url,
       loadingBuilder: (context, child, loadingProgress) {
-        print(loadingProgress);
         if (loadingProgress != null) {
           return Center(
               child: Padding(

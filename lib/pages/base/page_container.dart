@@ -3,7 +3,6 @@ import 'package:wasteagram/pages/base/page_base.dart';
 import 'package:wasteagram/pages/waste_detail_page.dart';
 import 'package:wasteagram/pages/waste_list_page.dart';
 import 'package:wasteagram/pages/waste_post_page.dart';
-import 'package:wasteagram/styles/styles.dart';
 
 class PageContainer extends PageBase {
   final PageType _pageType;

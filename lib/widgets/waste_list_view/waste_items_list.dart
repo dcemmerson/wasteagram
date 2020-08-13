@@ -5,7 +5,9 @@ import 'package:wasteagram/models/wasted_item.dart';
 import 'package:wasteagram/routes/routes.dart';
 import 'package:wasteagram/utils/date.dart';
 import 'package:wasteagram/styles/styles.dart';
+import 'package:wasteagram/widgets/waste_list_view/compact_list_tile.dart';
 import 'package:wasteagram/widgets/waste_list_view/empty_post.dart';
+import 'package:wasteagram/widgets/waste_list_view/expanded_list_tile.dart';
 
 class WasteItems extends StatefulWidget {
   @override
@@ -14,26 +16,13 @@ class WasteItems extends StatefulWidget {
 
 class _WasteItemsState extends State<WasteItems> {
   WasteBloc _bloc;
+  bool _isCompactListTileMode;
 
   void didChangeDependencies() {
     super.didChangeDependencies();
     _bloc = WasteagramStateContainer.of(context).blocProvider.wasteBloc;
-  }
-
-  Widget _buildListItem(WastedItem document) {
-    return Card(
-        child: ListTile(
-      leading: const Icon(Icons.chevron_right),
-      title: Row(children: [
-        Text(
-          Date.humanizeTimestamp(document.date),
-          style: TextStyle(fontSize: AppFonts.h3),
-        ),
-        Text(' (' + Date.dayOfWeek(document.date) + ')'),
-      ]),
-      trailing: Text(document.count.toString()),
-      onTap: () => Routes.wasteDetailPage(context, item: document),
-    ));
+    _isCompactListTileMode =
+        WasteagramStateContainer.of(context).isCompactWasteListMode;
   }
 
   @override
@@ -48,10 +37,17 @@ class _WasteItemsState extends State<WasteItems> {
         if (snapshot.data.length < 1) {
           return EmptyPostList();
         } else {
-          return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (context, index) =>
-                  _buildListItem(snapshot.data[index]));
+          if (_isCompactListTileMode) {
+            return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) =>
+                    CompactListTile(wastedItem: snapshot.data[index]));
+          } else {
+            return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) =>
+                    ExpandedListTile(wastedItem: snapshot.data[index]));
+          }
         }
       },
     ));
