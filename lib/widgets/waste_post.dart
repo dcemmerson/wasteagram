@@ -66,32 +66,40 @@ class _WastePostState extends State<WastePost> {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  FlatButton(
-                      onPressed: () =>
-                          setState(() => imageSource = ImageSource.camera),
-                      child: Padding(
-                          padding: EdgeInsets.all(AppPadding.p7),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('Take photo'),
-                                Padding(
-                                    padding: EdgeInsets.all(AppPadding.p4),
-                                    child: Icon(Icons.photo_camera))
-                              ]))),
-                  FlatButton(
-                      onPressed: () =>
-                          setState(() => imageSource = ImageSource.gallery),
-                      child: Padding(
-                          padding: EdgeInsets.all(AppPadding.p7),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('From gallery'),
-                                Padding(
-                                    padding: EdgeInsets.all(AppPadding.p4),
-                                    child: Icon(Icons.photo_library))
-                              ])))
+                  Semantics(
+                      button: true,
+                      hint: 'Take a photo with device camera',
+                      label: 'Take Photo',
+                      child: FlatButton(
+                          onPressed: () =>
+                              setState(() => imageSource = ImageSource.camera),
+                          child: Padding(
+                              padding: EdgeInsets.all(AppPadding.p7),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Take photo'),
+                                    Padding(
+                                        padding: EdgeInsets.all(AppPadding.p4),
+                                        child: Icon(Icons.photo_camera))
+                                  ])))),
+                  Semantics(
+                      button: true,
+                      label: 'Choose from Gallery',
+                      hint: 'Choose photo from gallery',
+                      child: FlatButton(
+                          onPressed: () =>
+                              setState(() => imageSource = ImageSource.gallery),
+                          child: Padding(
+                              padding: EdgeInsets.all(AppPadding.p7),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('From gallery'),
+                                    Padding(
+                                        padding: EdgeInsets.all(AppPadding.p4),
+                                        child: Icon(Icons.photo_library))
+                                  ]))))
                 ],
               );
             default:
