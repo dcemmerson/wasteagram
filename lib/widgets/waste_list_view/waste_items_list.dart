@@ -36,13 +36,15 @@ class _WasteItemsState extends State<WasteItems> {
           if (_isCompactListTileMode) {
             return ListView.builder(
                 itemCount: snapshot.data.length,
-                itemBuilder: (context, index) =>
-                    CompactListTile(wastedItem: snapshot.data[index]));
+                itemBuilder: (context, index) => Semantics(
+                    value: snapshot.data[index].name,
+                    child: CompactListTile(wastedItem: snapshot.data[index])));
           } else {
             return ListView.builder(
                 itemCount: snapshot.data.length,
-                itemBuilder: (context, index) =>
-                    ExpandedListTile(wastedItem: snapshot.data[index]));
+                itemBuilder: (context, index) => Semantics(
+                    value: snapshot.data[index].name,
+                    child: ExpandedListTile(wastedItem: snapshot.data[index])));
           }
         }
       },

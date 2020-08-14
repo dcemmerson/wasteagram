@@ -35,7 +35,7 @@ class WasteItemDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WastedItem item;
-    !kReleaseMode
+    !kReleaseMode && this.testItem != null
         ? item = this.testItem
         : item = ModalRoute.of(context).settings.arguments as WastedItem;
 
