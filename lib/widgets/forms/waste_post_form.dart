@@ -63,6 +63,7 @@ class _WastePostFormState extends State<WastePostForm> {
         padding: EdgeInsets.fromLTRB(
             AppPadding.p5, AppPadding.p7, AppPadding.p5, AppPadding.p5),
         child: TextFormField(
+          key: ValueKey('itemNameField'),
           validator: (value) => Validate.emptyString(value),
           onSaved: (value) => addWasteItem.name = value,
           keyboardType: TextInputType.text,
@@ -76,6 +77,7 @@ class _WastePostFormState extends State<WastePostForm> {
         padding: EdgeInsets.fromLTRB(
             AppPadding.p5, AppPadding.p7, AppPadding.p5, AppPadding.p5),
         child: TextFormField(
+          key: ValueKey('itemCountField'),
           validator: (value) => Validate.number(value),
           onSaved: (value) => addWasteItem.count = int.parse(value),
           keyboardType: TextInputType.number,
@@ -98,6 +100,7 @@ class _WastePostFormState extends State<WastePostForm> {
       padding: EdgeInsets.fromLTRB(
           AppPadding.p5, AppPadding.p2, AppPadding.p5, AppPadding.p5),
       child: FormField(
+        key: ValueKey('itemLatLngField'),
         initialValue: locationData,
         validator: (value) => Validate.location(value),
         onSaved: (value) => addWasteItem.locationData = value,
@@ -147,22 +150,30 @@ class _WastePostFormState extends State<WastePostForm> {
     var currHeight = MediaQuery.of(context).size.height;
 
     return Container(
-        child: FlatButton(
-            color: Theme.of(context).accentColor,
-            padding: EdgeInsets.all(AppPadding.p0),
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-                _bloc.addWasteItemSink.add(addWasteItem);
-                Navigator.of(context).pop();
-              }
-            },
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Icon(
-                Icons.cloud_upload,
-                size: currWidth > currHeight ? currHeight / 3 : currWidth / 3,
-              ),
-            ])));
+        child: Semantics(
+            button: true,
+            hint: 'Upload wasted item to cloud',
+            label: 'Upload',
+            child: FlatButton(
+                key: ValueKey('itemUploadButton'),
+                color: Theme.of(context).accentColor,
+                padding: EdgeInsets.all(AppPadding.p0),
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    print('uploading???');
+                    _formKey.currentState.save();
+                    _bloc.addWasteItemSink.add(addWasteItem);
+                    Navigator.of(context).pop();
+                  }
+                },
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Icon(
+                    Icons.cloud_upload,
+                    size:
+                        currWidth > currHeight ? currHeight / 3 : currWidth / 3,
+                  ),
+                ]))));
   }
 
   Widget _buildForm(PhotoTaken photoTaken) {

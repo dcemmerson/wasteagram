@@ -57,6 +57,8 @@ class _WastePostState extends State<WastePost> {
             case ConnectionState.waiting:
               return const CircularProgressIndicator();
             case ConnectionState.done:
+              print('connection state == done\n\n\n\n\n\n\n\n\n\n');
+              print(snapshot.data);
               if (snapshot.data != null) {
                 photoFile = snapshot.data;
                 _bloc.photoTakenSink.add(

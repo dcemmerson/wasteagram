@@ -14,6 +14,7 @@ class DateTimeFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DateTimeField(
+        key: ValueKey('itemDateField'),
         initialValue: DateTime.now(),
         validator: (value) => Validate.date(value),
         onSaved: onSaved,
