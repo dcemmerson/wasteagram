@@ -7,21 +7,22 @@ import 'package:wasteagram/utils/date.dart';
 class CompactListTile extends StatelessWidget {
   final WastedItem wastedItem;
 
-  CompactListTile({this.wastedItem});
+  CompactListTile({@required this.wastedItem});
   @override
   Widget build(BuildContext context) {
     return Card(
-        child: ListTile(
-      leading: const Icon(Icons.chevron_right),
-      title: Row(children: [
-        Text(
-          Date.humanizeTimestamp(wastedItem.date),
-          style: TextStyle(fontSize: AppFonts.h3),
-        ),
-        Text(' (' + Date.dayOfWeek(wastedItem.date) + ')'),
-      ]),
-      trailing: Text(wastedItem.count.toString()),
-      onTap: () => Routes.wasteDetailPage(context, item: wastedItem),
-    ));
+      child: ListTile(
+        leading: const Icon(Icons.chevron_right),
+        title: Row(children: [
+          Text(
+            Date.humanizeTimestamp(wastedItem.date),
+            style: TextStyle(fontSize: AppFonts.h3),
+          ),
+          Text(' (' + Date.dayOfWeek(wastedItem.date) + ')'),
+        ]),
+        trailing: Text(wastedItem.count.toString()),
+        onTap: () => Routes.wasteDetailPage(context, item: wastedItem),
+      ),
+    );
   }
 }

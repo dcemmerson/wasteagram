@@ -5,7 +5,7 @@ import '../../mock/mock_waste_service.dart';
 
 void wasteItemsRetrieveTest() {
   WasteBloc wasteBloc;
-  group('Test photo taken sink and stream', () {
+  group('Test waste list db retrieval with mock', () {
     setUpAll(() {
       wasteBloc = WasteBloc(MockWasteService());
     });
@@ -29,8 +29,6 @@ void wasteItemsRetrieveTest() {
         }
         break;
       }
-      // expect(wasteBloc.wastedItems,
-      //     emitsInOrder(MockWasteService.orderedMockWasteItems));
     });
   });
 }

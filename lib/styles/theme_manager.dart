@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ThemeManager {
-  // //use static constants to easily allow for additional theme colors
-  // static const DarkMode = 'dark_mode';
-  // static const LightMode = 'light';
-
   final bool darkMode;
 
   ThemeData _themeLight = ThemeData(
       // Define the default brightness and colors.
       brightness: Brightness.light,
-      primaryColor: Colors.lightBlue[800],
-      accentColor: Colors.cyan[600],
+      primaryColor: Colors.blueGrey[600],
+      accentColor: Colors.blueGrey[400],
 
       // Define the default font family.
       fontFamily: 'Ubuntu',

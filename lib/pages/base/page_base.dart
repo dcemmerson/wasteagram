@@ -17,6 +17,13 @@ abstract class PageBase extends StatelessWidget {
 
   PageBase({Key key}) : super(key: key);
 
+  Widget _buildAppBarFoot() {
+    return PreferredSize(
+      preferredSize: Size(0, 20),
+      child: Container(alignment: Alignment.bottomRight, child: Text('abc')),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     themeManager =
@@ -26,6 +33,7 @@ abstract class PageBase extends StatelessWidget {
           data: themeManager.themeData,
           child: Scaffold(
             appBar: AppBar(
+//              bottom: PreferredSize, //_buildAppBarFoot(),
               centerTitle: true,
               elevation: 0.0,
               title: Text(pageTitle),

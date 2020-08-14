@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wasteagram/bloc/waste_bloc.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
-import 'package:wasteagram/models/wasted_item.dart';
-import 'package:wasteagram/routes/routes.dart';
-import 'package:wasteagram/utils/date.dart';
-import 'package:wasteagram/styles/styles.dart';
 import 'package:wasteagram/widgets/waste_list_view/compact_list_tile.dart';
 import 'package:wasteagram/widgets/waste_list_view/empty_post.dart';
 import 'package:wasteagram/widgets/waste_list_view/expanded_list_tile.dart';
@@ -51,6 +47,5 @@ class _WasteItemsState extends State<WasteItems> {
         }
       },
     ));
-    ;
   }
 }

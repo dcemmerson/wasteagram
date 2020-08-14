@@ -41,10 +41,10 @@ class MockWasteService extends WasteService {
       },
     }
   };
-  MockFirestore mockFirestore = MockFirestore(data: mockData);
+  MockFirestore mockFirebase = MockFirestore(data: mockData);
 
   Stream<QuerySnapshot> get wastedItems {
-    return mockFirestore
+    return mockFirebase
         .collection('foodWaste')
         .orderBy('date', descending: true)
         .snapshots();

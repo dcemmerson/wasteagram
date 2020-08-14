@@ -1,9 +1,20 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wasteagram/models/wasted_item.dart';
 import 'package:wasteagram/utils/date.dart';
 import 'package:wasteagram/styles/styles.dart';
 
 class WasteItemDetail extends StatelessWidget {
+  final WastedItem testItem;
+
+  WasteItemDetail() : testItem = null;
+
+  // Name constructor allows for automated widget test, isolated from
+  // end to end (flutter integration) test.
+  WasteItemDetail.passTestItem({@required this.testItem}) {
+    assert(!kReleaseMode);
+  }
+
   Widget _imageFromNetwork(String url) {
     return Image.network(
       url,
@@ -23,7 +34,11 @@ class WasteItemDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WastedItem item = ModalRoute.of(context).settings.arguments as WastedItem;
+    WastedItem item;
+    !kReleaseMode
+        ? item = this.testItem
+        : item = ModalRoute.of(context).settings.arguments as WastedItem;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [

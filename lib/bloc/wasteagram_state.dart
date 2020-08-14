@@ -63,7 +63,6 @@ class WasteagramState extends State<WasteagramStateContainer> {
 
   @override
   Widget build(BuildContext context) {
-    print('build');
     return _WasteagramContainer(
       wasteagramState: this,
       isDarkMode: isDarkMode,
