@@ -33,7 +33,6 @@ abstract class PageBase extends StatelessWidget {
           data: themeManager.themeData,
           child: Scaffold(
               appBar: AppBar(
-//              bottom: PreferredSize, //_buildAppBarFoot(),
                 centerTitle: true,
                 elevation: 0.0,
                 title: Text(pageTitle),
