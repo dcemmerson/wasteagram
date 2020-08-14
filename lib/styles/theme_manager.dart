@@ -8,6 +8,7 @@ class ThemeManager {
       brightness: Brightness.light,
       primaryColor: Colors.blueGrey[600],
       accentColor: Colors.blueGrey[400],
+      disabledColor: Colors.grey[700],
 
       // Define the default font family.
       fontFamily: 'Ubuntu',
@@ -25,6 +26,7 @@ class ThemeManager {
       brightness: Brightness.dark,
       primaryColor: Colors.orange,
       accentColor: Colors.orange[800],
+      disabledColor: Colors.grey[800],
 
       // Define the default font family.
       fontFamily: 'Ubuntu',

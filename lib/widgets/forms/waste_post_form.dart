@@ -5,7 +5,7 @@ import 'package:location/location.dart';
 
 import 'package:wasteagram/bloc/waste_bloc.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
-import 'package:wasteagram/services/hardware/image_picker_manager.dart';
+import 'package:wasteagram/models/wasted_item.dart';
 import 'package:wasteagram/styles/styles.dart';
 import 'package:wasteagram/utils/validate.dart';
 import 'package:wasteagram/widgets/forms/date_time_form_field.dart';
@@ -18,13 +18,20 @@ class WastePostForm extends StatefulWidget {
 
 class _WastePostFormState extends State<WastePostForm> {
   final _formKey = GlobalKey<FormState>();
-  final ImagePickerManager _imagePickerManager;
+
+  FocusNode nameFocus;
+  FocusNode countFocus;
+
   WasteBloc _bloc;
   AddWasteItem addWasteItem = AddWasteItem();
   bool _formChanged = false;
+  bool _itemUploading = false;
 
-  _WastePostFormState()
-      : _imagePickerManager = ImagePickerManager.getInstance();
+  void initState() {
+    super.initState();
+    nameFocus = FocusNode();
+    countFocus = FocusNode();
+  }
 
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -63,8 +70,14 @@ class _WastePostFormState extends State<WastePostForm> {
         padding: EdgeInsets.fromLTRB(
             AppPadding.p5, AppPadding.p7, AppPadding.p5, AppPadding.p5),
         child: TextFormField(
+          focusNode: nameFocus,
           key: ValueKey('itemNameField'),
-          validator: (value) => Validate.emptyString(value),
+          validator: (value) {
+            String valid = Validate.emptyString(value);
+            if (valid != null) FocusScope.of(context).requestFocus(nameFocus);
+
+            return valid;
+          },
           onSaved: (value) => addWasteItem.name = value,
           keyboardType: TextInputType.text,
           decoration:
@@ -77,8 +90,14 @@ class _WastePostFormState extends State<WastePostForm> {
         padding: EdgeInsets.fromLTRB(
             AppPadding.p5, AppPadding.p7, AppPadding.p5, AppPadding.p5),
         child: TextFormField(
+          focusNode: countFocus,
           key: ValueKey('itemCountField'),
-          validator: (value) => Validate.number(value),
+          validator: (value) {
+            String valid = Validate.number(value);
+            if (valid != null) FocusScope.of(context).requestFocus(countFocus);
+
+            return valid;
+          },
           onSaved: (value) => addWasteItem.count = int.parse(value),
           keyboardType: TextInputType.number,
           decoration:
@@ -148,31 +167,36 @@ class _WastePostFormState extends State<WastePostForm> {
   Widget itemUploadButton() {
     var currWidth = MediaQuery.of(context).size.width;
     var currHeight = MediaQuery.of(context).size.height;
+    double buttonSize = currWidth > currHeight ? currHeight / 3 : currWidth / 3;
 
     return Container(
         child: Semantics(
             button: true,
             hint: 'Upload wasted item to cloud',
             label: 'Upload',
+            enabled: !_itemUploading,
             child: FlatButton(
                 key: ValueKey('itemUploadButton'),
                 color: Theme.of(context).accentColor,
+                disabledColor: Theme.of(context).disabledColor,
                 padding: EdgeInsets.all(AppPadding.p0),
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    print('uploading???');
-                    _formKey.currentState.save();
-                    _bloc.addWasteItemSink.add(addWasteItem);
-                    Navigator.of(context).pop();
-                  }
-                },
+                onPressed: (_itemUploading || !_formChanged)
+                    ? null
+                    : () async {
+                        setState(() => _itemUploading = true);
+                        if (_formKey.currentState.validate()) {
+                          await saveToCloud();
+                        }
+                        setState(() => _itemUploading = false);
+                      },
                 child:
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Icon(
-                    Icons.cloud_upload,
-                    size:
-                        currWidth > currHeight ? currHeight / 3 : currWidth / 3,
-                  ),
+                  _itemUploading
+                      ? Container(
+                          height: buttonSize,
+                          width: buttonSize,
+                          child: CircularProgressIndicator())
+                      : Icon(Icons.cloud_upload, size: buttonSize),
                 ]))));
   }
 
@@ -192,6 +216,54 @@ class _WastePostFormState extends State<WastePostForm> {
                 itemUploadButton(),
               ],
             )));
+  }
+
+  Future saveToCloud() async {
+    _formKey.currentState.save();
+    _bloc.addWasteItemSink.add(addWasteItem);
+
+    bool itemUploadSuccess = false;
+
+    Future<bool> uploadSuccess =
+        isItemUploaded(addWasteItem).then((value) => itemUploadSuccess = value);
+    Future<bool> uploadTimeout = itemUploadTimeout();
+
+    await Future.any([uploadSuccess, uploadTimeout]);
+    if (itemUploadSuccess) {
+      Navigator.of(context).pop();
+    } else {
+      showErrorSaving();
+    }
+  }
+
+  Future<bool> isItemUploaded(AddWasteItem addWasteItem) async {
+    await for (var items in _bloc.wastedItems) {
+      for (WastedItem item in items) {
+        if (item.name == addWasteItem.name &&
+            item.count == addWasteItem.count &&
+            item.location == item.location) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  Future<bool> itemUploadTimeout({seconds: 5}) async {
+    await Future.delayed(Duration(seconds: seconds));
+    return true;
+  }
+
+  Future showErrorSaving() {
+    return showDialog<void>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+              content: Text('Unable to save post at this time.'),
+              actions: [
+                FlatButton(
+                    child: Text('Ok'), onPressed: () => Navigator.pop(context)),
+              ],
+            ));
   }
 
   @override
