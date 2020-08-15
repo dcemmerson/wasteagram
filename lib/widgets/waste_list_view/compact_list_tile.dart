@@ -12,6 +12,7 @@ class CompactListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
+        key: ValueKey(wastedItem.name + wastedItem.count.toString()),
         leading: const Icon(Icons.chevron_right),
         title: Row(children: [
           Text(

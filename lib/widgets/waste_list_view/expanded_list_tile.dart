@@ -149,6 +149,7 @@ class ExpandedListTile extends StatelessWidget {
         margin: EdgeInsets.fromLTRB(
             AppPadding.p0, AppPadding.p4, AppPadding.p0, AppPadding.p3),
         child: ListTile(
+          key: ValueKey(wastedItem.name + wastedItem.count.toString()),
           contentPadding: EdgeInsets.all(AppPadding.p0),
           title: Container(
             height: containerSize.height,
