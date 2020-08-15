@@ -15,7 +15,7 @@ void main() {
       MethodChannel('plugins.flutter.io/image_picker');
 
   channel.setMockMethodCallHandler((MethodCall methodCall) async {
-    ByteData data = await rootBundle.load('testing/test_image.jpeg');
+    ByteData data = await rootBundle.load('assets/testing/test_image.jpeg');
     Uint8List bytes = data.buffer.asUint8List();
     Directory tempDir = await getTemporaryDirectory();
     File file = await File(
