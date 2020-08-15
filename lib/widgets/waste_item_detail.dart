@@ -53,14 +53,16 @@ class WasteItemDetail extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Padding(
-                padding: EdgeInsets.all(AppPadding.p4),
-                child: Text('Item: ' + item.name,
-                    style: TextStyle(fontSize: AppFonts.h4))),
-            Padding(
-                padding: EdgeInsets.all(AppPadding.p4),
-                child: Text('Count: ' + item.count.toString(),
-                    style: TextStyle(fontSize: AppFonts.h6))),
+            Flexible(
+                child: Padding(
+                    padding: EdgeInsets.all(AppPadding.p4),
+                    child: Text('Item: ' + item.name,
+                        style: TextStyle(fontSize: AppFonts.h4)))),
+            Flexible(
+                child: Padding(
+                    padding: EdgeInsets.all(AppPadding.p4),
+                    child: Text('Count: ' + item.count.toString(),
+                        style: TextStyle(fontSize: AppFonts.h6)))),
           ],
         ),
         _imageFromNetwork(item.imageUrl),

@@ -3,8 +3,6 @@ import 'package:path/path.dart';
 
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
 
 void main() {
   group('Wasteagram integration tests', () {
@@ -52,7 +50,9 @@ void main() {
       final health = await driver.checkHealth();
       expect(health.status, HealthStatus.ok);
     });
-    test('Test waste post tiles appearing', () async {
+    test(
+        'Test: Add new waste post, verify waste post appears in listview, ' +
+            'finally verify waste post appear in detail view', () async {
       await Future.delayed(Duration(seconds: 2));
 
       await driver.tap(fab);
@@ -119,6 +119,9 @@ void main() {
   });
 }
 
+//  Define these functions here as the 'equivalent' functions in actual app
+//  convert Firebase Timestamp into dates, which will prevent our integration
+//  tests from running if we import into these integration tests.
 String stringDay(int weekday) {
   switch (weekday) {
     case DateTime.monday:
@@ -136,7 +139,7 @@ String stringDay(int weekday) {
     case DateTime.sunday:
       return 'Sun';
     default:
-      break;
+      return 'unknown';
   }
 }
 
@@ -167,6 +170,6 @@ String stringMonth(int weekday) {
     case DateTime.december:
       return 'Dec';
     default:
-      break;
+      return 'unknown';
   }
 }
