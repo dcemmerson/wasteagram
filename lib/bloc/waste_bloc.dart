@@ -64,14 +64,6 @@ class AddWasteItem {
   DateTime date;
   File photo;
   LocationData locationData;
-
-  // AddWasteItem.fromMap({
-  //   @required this.name,
-  //   @required this.count,
-  //   @required this.date,
-  //   @required this.photo,
-  //   @required this.locationData,
-  // });
 }
 
 class PhotoTaken {

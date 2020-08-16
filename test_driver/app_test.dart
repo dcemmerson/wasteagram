@@ -104,6 +104,8 @@ void main() {
       //  and date and verify these all exist.
       find.text(sampleItem['name']);
 
+      await Future.delayed(Duration(seconds: 2));
+
       find.text(sampleItem['count']);
       var date = DateTime.now();
       String dateToVerify = stringDay(date.weekday) +
