@@ -10,9 +10,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wasteagram/app.dart';
+import 'package:wasteagram/bloc/auth_bloc.dart';
 import 'package:wasteagram/bloc/bloc_provider.dart';
 import 'package:wasteagram/bloc/waste_bloc.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
+import 'package:wasteagram/services/network/auth_service.dart';
 import 'package:wasteagram/services/network/waste_service.dart';
 
 void main() async {
@@ -28,7 +30,10 @@ void main() async {
 
   var wasteService = WasteService();
   var wasteBloc = WasteBloc(wasteService);
+  var authService = AuthService();
+  var authBloc = AuthBloc(authService);
+
   runApp(WasteagramStateContainer(
-      blocProvider: BlocProvider(wasteBloc: wasteBloc),
+      blocProvider: BlocProvider(wasteBloc: wasteBloc, authBloc: authBloc),
       child: WasteagramApp()));
 }

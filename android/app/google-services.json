@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "295557236829-svmp9r1dh35ka9s4or9pbpj4r60skndh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wasteagram",
+            "certificate_hash": "0047650d8e566bc48f4396c0b8320ae018a01bcc"
+          }
+        },
+        {
           "client_id": "295557236829-o2nkomaj0v2b27bc4gds1f02k70gtlht.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -30,6 +38,13 @@
             {
               "client_id": "295557236829-o2nkomaj0v2b27bc4gds1f02k70gtlht.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "295557236829-d4dh9e7akhljel10k57l6k3gp65593ep.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.wasteagram"
+              }
             }
           ]
         }

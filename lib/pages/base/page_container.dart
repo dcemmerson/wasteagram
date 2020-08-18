@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wasteagram/pages/authentication_page.dart';
 import 'package:wasteagram/pages/base/page_base.dart';
 import 'package:wasteagram/pages/waste_detail_page.dart';
 import 'package:wasteagram/pages/waste_list_page.dart';
@@ -23,6 +24,9 @@ class PageContainer extends PageBase {
         break;
       case PageType.WastePostPage:
         page = WastePostPage();
+        break;
+      case PageType.AuthenticationPage:
+        page = AuthenticationPage();
         break;
       default:
         page = WasteListPage();

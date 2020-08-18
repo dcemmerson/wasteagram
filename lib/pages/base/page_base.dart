@@ -5,7 +5,7 @@ import 'package:wasteagram/styles/theme_manager.dart';
 import 'package:wasteagram/widgets/settings/settings_drawer.dart';
 import 'package:wasteagram/widgets/settings/settings_drawer_icon.dart';
 
-enum PageType { WastePage, WasteDetailPage, WastePostPage }
+enum PageType { AuthenticationPage, WastePage, WasteDetailPage, WastePostPage }
 
 abstract class PageBase extends StatelessWidget {
   ThemeManager themeManager;
