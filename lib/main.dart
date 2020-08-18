@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+
 /// filename: main.dart
 /// last modified: 08/07/2020
 /// description: Entry point to wasteagram app
@@ -13,8 +15,9 @@ import 'package:wasteagram/bloc/waste_bloc.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
 import 'package:wasteagram/services/network/waste_service.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,
@@ -25,7 +28,6 @@ void main() {
 
   var wasteService = WasteService();
   var wasteBloc = WasteBloc(wasteService);
-
   runApp(WasteagramStateContainer(
       blocProvider: BlocProvider(wasteBloc: wasteBloc),
       child: WasteagramApp()));

@@ -28,12 +28,12 @@ class WastedItem {
         this.location = map['location'];
 
   WastedItem.fromDocument(DocumentSnapshot doc)
-      : this.name = doc['name'],
-        this.count = doc['count'].toDouble(),
-        this.image = doc['image'],
-        this.imageUrl = doc['imageUrl'],
-        this.date = doc['date'],
-        this.location = doc['location'];
+      : this.name = doc.data()['name'],
+        this.count = doc.data()['count'].toDouble(),
+        this.image = doc.data()['image'],
+        this.imageUrl = doc.data()['imageUrl'],
+        this.date = doc.data()['date'],
+        this.location = doc.data()['location'];
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

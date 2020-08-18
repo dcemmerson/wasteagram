@@ -6,7 +6,7 @@ import 'package:location/location.dart';
 
 class WasteService {
   Stream<QuerySnapshot> get wastedItems {
-    return Firestore.instance
+    return FirebaseFirestore.instance
         .collection('foodWaste')
         .orderBy('date', descending: true)
         .snapshots();
@@ -25,7 +25,7 @@ class WasteService {
         ref.putFile(photo, StorageMetadata(contentLanguage: 'en'));
 
     await uploadTask.onComplete;
-    await Firestore.instance.collection('foodWaste').add({
+    await FirebaseFirestore.instance.collection('foodWaste').add({
       'name': name,
       'count': count,
       'imageUrl': await ref.getDownloadURL(),

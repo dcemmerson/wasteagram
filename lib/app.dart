@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wasteagram/routes/routes.dart';
 
-class WasteagramApp extends StatefulWidget {
-  @override
-  _WasteagramAppState createState() => _WasteagramAppState();
-}
-
-class _WasteagramAppState extends State<WasteagramApp> {
-  @override
+class WasteagramApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
