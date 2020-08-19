@@ -22,12 +22,8 @@ class SettingsDrawer extends StatelessWidget {
             ]),
           ),
           Expanded(
-            child: Container(
-              color: Colors.green,
-              alignment: Alignment.topRight,
-              child: LoginButton(),
-            ),
-          )
+            child: LoginButton(),
+          ),
         ],
       ),
     );
