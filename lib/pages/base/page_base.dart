@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
 import 'package:wasteagram/routes/routes.dart';
 import 'package:wasteagram/styles/theme_manager.dart';
-import 'package:wasteagram/widgets/settings/settings_drawer.dart';
-import 'package:wasteagram/widgets/settings/settings_drawer_icon.dart';
+import 'package:wasteagram/widgets/drawer/settings_drawer.dart';
+import 'package:wasteagram/widgets/drawer/settings_drawer_icon.dart';
 
 enum PageType { AuthenticationPage, WastePage, WasteDetailPage, WastePostPage }
 

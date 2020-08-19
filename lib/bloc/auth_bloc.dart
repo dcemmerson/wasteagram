@@ -21,6 +21,7 @@ class AuthBloc {
   }
 
   Future<UserCredential> signInWithGoogle() => _authService.signInWithGoogle();
+  Future logout() => _authService.logout();
 
   close() {
     _authStatusController.close();

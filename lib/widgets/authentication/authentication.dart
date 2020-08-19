@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wasteagram/bloc/auth_bloc.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
-import 'package:wasteagram/pages/waste_list_page.dart';
-import 'package:wasteagram/widgets/authentication/login_form.dart';
-import 'package:wasteagram/widgets/waste_item_detail.dart';
+import 'package:wasteagram/widgets/authentication/login_button.dart';
 import 'package:wasteagram/widgets/waste_list_view/waste_items_list.dart';
 
 class Authentication extends StatefulWidget {
@@ -34,7 +32,7 @@ class _LoginState extends State<Authentication> {
             // case ConnectionState.done:
             case ConnectionState.active:
               if (snapshot.data == null) {
-                return LoginForm();
+                return LoginButton();
               }
               return WasteItems();
             default:

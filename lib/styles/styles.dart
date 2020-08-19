@@ -11,6 +11,10 @@ class AppFonts {
   static const h4 = 21.0;
   static const h5 = 18.0;
   static const h6 = 16.0;
+  static const h7 = 14.0;
+  static const h8 = 12.0;
+  static const h9 = 10.0;
+  static const h10 = 8.0;
 }
 
 class AppPadding {

@@ -15,4 +15,8 @@ class AuthService {
 
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
+
+  Future logout() async {
+    FirebaseAuth.instance.signOut();
+  }
 }
