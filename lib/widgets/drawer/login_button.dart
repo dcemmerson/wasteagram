@@ -4,8 +4,8 @@ import 'package:wasteagram/bloc/wasteagram_state.dart';
 import 'package:wasteagram/styles/styles.dart';
 
 class LoginButton extends StatefulWidget {
-  final loggedInAnimationDuration = const Duration(milliseconds: 150);
-  final loggedOutAnimationDuration = const Duration(milliseconds: 75);
+  final loggedInAnimationDuration = const Duration(milliseconds: 250);
+  final loggedOutAnimationDuration = const Duration(milliseconds: 100);
   final _circularProgressIndicator =
       Container(width: 20, height: 20, child: CircularProgressIndicator());
 
@@ -50,7 +50,7 @@ class _LoginButtonState extends State<LoginButton>
 
   void signIn() async {
     setState(() => _waitingForServer = true);
-    await _authBloc.signInWithGoogle();
+    await _authBloc.signIn(LoginType.Gmail);
     setState(() {
       _waitingForServer = false;
       _willBeAnimated = false;
@@ -115,69 +115,77 @@ class _LoginButtonState extends State<LoginButton>
     ]);
   }
 
-  Widget _buildLogoutButton(String email) {
-    return Stack(fit: StackFit.expand, children: [
-      Container(
-        alignment: Alignment.topRight,
-        child: GestureDetector(
-          onTap: expandLogoutDropdown,
-          child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                  AppPadding.p0, AppPadding.p0, AppPadding.p4, AppPadding.p0),
-              child: _expanded
-                  ? Icon(Icons.arrow_drop_up)
-                  : Icon(Icons.arrow_drop_down),
-            ),
-            Flexible(
-                child: Text(
-              email,
-              overflow: TextOverflow.fade,
-              softWrap: false,
-              style: TextStyle(
-                  fontSize: AppFonts.h8,
-                  color: Theme.of(context).primaryColorLight),
-            )),
-          ]),
-        ),
+  Widget _tappableEmailDropdown(String email) {
+    return Container(
+      alignment: Alignment.topRight,
+      child: GestureDetector(
+        onTap: expandLogoutDropdown,
+        child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(
+                AppPadding.p0, AppPadding.p0, AppPadding.p4, AppPadding.p0),
+            child: _expanded
+                ? Icon(Icons.arrow_drop_up)
+                : Icon(Icons.arrow_drop_down),
+          ),
+          Flexible(
+              child: Text(
+            email,
+            overflow: TextOverflow.fade,
+            softWrap: false,
+            style: TextStyle(
+                fontSize: AppFonts.h8,
+                color: Theme.of(context).primaryColorLight),
+          )),
+        ]),
       ),
-      Visibility(
-        visible: _expanded,
-        child: PositionedTransition(
-          rect: RelativeRectTween(
-            begin: RelativeRect.fromLTRB(0, 0, 0, 0),
-            end: RelativeRect.fromLTRB(0, AppFonts.h4, 0, 0),
-          ).animate(CurvedAnimation(
-              parent: _loggedOutController, curve: Curves.easeOut)),
-          child: Container(
-            alignment: Alignment.topRight,
-            child: GestureDetector(
-              onTap: _waitingForServer ? null : logout,
-              child: FadeTransition(
-                // visible: expanded,
-                opacity: _fadeAnimation,
-                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(AppPadding.p0, AppPadding.p0,
-                        AppPadding.p4, AppPadding.p0),
-                    child: _waitingForServer
-                        ? widget._circularProgressIndicator
-                        : Icon(Icons.account_circle),
-                  ),
-                  Text(
-                    'Logout',
-                    overflow: TextOverflow.fade,
-                    softWrap: false,
-                    style: TextStyle(
-                        fontSize: AppFonts.h8,
-                        color: Theme.of(context).primaryColorLight),
-                  ),
-                ]),
-              ),
+    );
+  }
+
+  Widget _logoutButton() {
+    return Visibility(
+      visible: _expanded,
+      child: PositionedTransition(
+        rect: RelativeRectTween(
+          begin: RelativeRect.fromLTRB(0, 0, 0, 0),
+          end: RelativeRect.fromLTRB(0, AppFonts.h4, 0, 0),
+        ).animate(CurvedAnimation(
+            parent: _loggedOutController, curve: Curves.easeOut)),
+        child: Container(
+          alignment: Alignment.topRight,
+          child: GestureDetector(
+            onTap: _waitingForServer ? null : logout,
+            child: FadeTransition(
+              // visible: expanded,
+              opacity: _fadeAnimation,
+              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(AppPadding.p0, AppPadding.p0,
+                      AppPadding.p4, AppPadding.p0),
+                  child: _waitingForServer
+                      ? widget._circularProgressIndicator
+                      : Icon(Icons.account_circle),
+                ),
+                Text(
+                  'Logout',
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
+                  style: TextStyle(
+                      fontSize: AppFonts.h8,
+                      color: Theme.of(context).primaryColorLight),
+                ),
+              ]),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildLogoutButton(String email) {
+    return Stack(fit: StackFit.expand, children: [
+      _tappableEmailDropdown(email),
+      _logoutButton(),
     ]);
   }
 
@@ -191,16 +199,15 @@ class _LoginButtonState extends State<LoginButton>
         }
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
-          // case ConnectionState.none:
-          // // return Text('loading');
           // case ConnectionState.done:
           case ConnectionState.active:
             if (snapshot.data == null) {
               return _buildLoginButton();
             }
             return _buildLogoutButton(snapshot.data.email);
+          case ConnectionState.none:
           default:
-            return Text('default');
+            return Text('Connection failed.');
         }
       },
     );

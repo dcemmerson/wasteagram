@@ -1,5 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
-
 /// filename: main.dart
 /// last modified: 08/07/2020
 /// description: Entry point to wasteagram app
@@ -7,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 ///   Eric Windmill's ecommerce app, found
 ///   https://github.com/ericwindmill/flutter_in_action_source_code/tree/master/chapter_7-8-9/e_commerce
 
+import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wasteagram/app.dart';
@@ -28,10 +28,13 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  var wasteService = WasteService();
-  var wasteBloc = WasteBloc(wasteService);
-  var authService = AuthService();
-  var authBloc = AuthBloc(authService);
+  final RemoteConfig remoteConfig = await RemoteConfig.instance;
+  remoteConfig.setConfigSettings(RemoteConfigSettings(debugMode: true));
+
+  final wasteService = WasteService();
+  final wasteBloc = WasteBloc(wasteService);
+  final authService = AuthService(remoteConfig: remoteConfig);
+  final authBloc = AuthBloc(authService);
 
   runApp(WasteagramStateContainer(
       blocProvider: BlocProvider(wasteBloc: wasteBloc, authBloc: authBloc),
