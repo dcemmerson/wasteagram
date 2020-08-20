@@ -67,7 +67,7 @@ abstract class PageBase extends StatelessWidget {
               actions: [SettingsDrawerIcon()],
             ),
             endDrawer: SettingsDrawer(),
-            body: body,
+            body: Authenticate(child: body),
           ));
     }
   }

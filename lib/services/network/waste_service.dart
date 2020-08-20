@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:location/location.dart';
 
@@ -17,7 +18,8 @@ class WasteService {
       int count,
       File photo,
       DateTime date,
-      LocationData locationData}) async {
+      LocationData locationData,
+      String uid}) async {
     final StorageReference ref = FirebaseStorage()
         .ref()
         .child(photo.path + date.millisecondsSinceEpoch.toString());
@@ -31,6 +33,7 @@ class WasteService {
       'imageUrl': await ref.getDownloadURL(),
       'date': date,
       'location': GeoPoint(locationData.latitude, locationData.longitude),
+      'uid': uid,
     });
   }
 }

@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:wasteagram/bloc/auth_bloc.dart';
 
 import 'package:wasteagram/bloc/waste_bloc.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
@@ -22,20 +24,24 @@ class _WastePostFormState extends State<WastePostForm> {
   FocusNode nameFocus;
   FocusNode countFocus;
 
-  WasteBloc _bloc;
+  WasteBloc _wasteBloc;
+  AuthBloc _authBloc;
   AddWasteItem addWasteItem = AddWasteItem();
   bool _formChanged = false;
   bool _itemUploading = false;
 
+  @override
   void initState() {
     super.initState();
     nameFocus = FocusNode();
     countFocus = FocusNode();
   }
 
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _bloc = WasteagramStateContainer.of(context).blocProvider.wasteBloc;
+    _wasteBloc = WasteagramStateContainer.of(context).blocProvider.wasteBloc;
+    _authBloc = WasteagramStateContainer.of(context).blocProvider.authBloc;
   }
 
   void _onFormChanged() {
@@ -149,18 +155,21 @@ class _WastePostFormState extends State<WastePostForm> {
         onSaved: (value) => addWasteItem.photo = value,
         builder: (field) {
           return Container(
-              height: MediaQuery.of(context).size.height * (2 / 3),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                        child: FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: Image.file(
-                              photo,
-                              semanticLabel: 'Photo to upload',
-                            )))
-                  ]));
+            height: MediaQuery.of(context).size.height * (2 / 3),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Image.file(
+                        photo,
+                        semanticLabel: 'Photo to upload',
+                      ),
+                    ),
+                  )
+                ]),
+          );
         });
   }
 
@@ -220,7 +229,8 @@ class _WastePostFormState extends State<WastePostForm> {
 
   Future saveToCloud() async {
     _formKey.currentState.save();
-    _bloc.addWasteItemSink.add(addWasteItem);
+    addWasteItem.uid = (await _authBloc.user.first).uid;
+    _wasteBloc.addWasteItemSink.add(addWasteItem);
 
     bool itemUploadSuccess = false;
 
@@ -237,7 +247,7 @@ class _WastePostFormState extends State<WastePostForm> {
   }
 
   Future<bool> isItemUploaded(AddWasteItem addWasteItem) async {
-    await for (var items in _bloc.wastedItems) {
+    await for (var items in _wasteBloc.wastedItems) {
       for (WastedItem item in items) {
         if (item.name == addWasteItem.name &&
             item.count == addWasteItem.count &&
@@ -269,7 +279,7 @@ class _WastePostFormState extends State<WastePostForm> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: _bloc.photoTaken,
+        stream: _wasteBloc.photoTaken,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data == null) {

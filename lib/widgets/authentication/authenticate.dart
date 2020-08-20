@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:wasteagram/bloc/auth_bloc.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
 import 'package:wasteagram/widgets/authentication/login_button_standalone.dart';
-import 'package:wasteagram/widgets/waste_list_view/waste_items_list.dart';
 
 class Authenticate extends StatefulWidget {
   final Widget child;
 
   Authenticate({@required this.child});
+
+  void setChild() {}
 
   @override
   _AuthenticateState createState() => _AuthenticateState();
@@ -24,9 +25,8 @@ class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: _authBloc.authStatus,
+        stream: _authBloc.user,
         builder: (context, snapshot) {
-          print('build authentication');
           if (snapshot.hasError) {
             return Text('Error occurred with firebase auth');
           }
@@ -39,7 +39,7 @@ class _AuthenticateState extends State<Authenticate> {
               if (snapshot.data == null) {
                 return LoginButtonStandalone();
               }
-              return WasteItems();
+              return widget.child;
             default:
               return Text('default');
           }

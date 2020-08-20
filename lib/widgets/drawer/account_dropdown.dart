@@ -239,7 +239,7 @@ class _LoginButtonState extends State<LoginButton>
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: _authBloc.authStatus,
+      stream: _authBloc.user,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Text('Error occurred with firebase auth');

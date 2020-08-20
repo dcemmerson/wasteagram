@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wasteagram/styles/styles.dart';
-import 'package:wasteagram/widgets/drawer/compact_waste_list_switch.dart';
+import 'package:wasteagram/widgets/drawer/switches/all_users_entries_switch.dart';
+import 'package:wasteagram/widgets/drawer/switches/compact_waste_list_switch.dart';
 import 'package:wasteagram/widgets/drawer/account_dropdown.dart';
-import 'package:wasteagram/widgets/drawer/theme_switch.dart';
+import 'package:wasteagram/widgets/drawer/switches/theme_switch.dart';
 
 class SettingsDrawer extends StatelessWidget {
   final Key drawerKey = GlobalKey();
@@ -45,6 +46,11 @@ class SettingsDrawer extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(
                   AppPadding.p7, AppPadding.p2, AppPadding.p7, AppPadding.p4),
               child: CompactWasteListSwitch(),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                  AppPadding.p7, AppPadding.p2, AppPadding.p7, AppPadding.p4),
+              child: AllUsersEntriesSwitch(),
             ),
           ],
         ));

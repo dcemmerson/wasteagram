@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class WasteagramStateContainer extends StatefulWidget {
   static const prefsDarkMode = 'darkMode';
   static const prefsCompactWasteListMode = 'compactMode';
+  static const prefsAllUsersEntries = 'allUsersEntries';
 
   final Widget child;
   final BlocProvider blocProvider;
@@ -30,6 +31,7 @@ class WasteagramState extends State<WasteagramStateContainer> {
   BlocProvider get blocProvider => widget.blocProvider;
   bool isDarkMode = false;
   bool isCompactWasteListMode = true;
+  bool allUsersEntries = true;
 
   @override
   void initState() {
@@ -55,6 +57,12 @@ class WasteagramState extends State<WasteagramStateContainer> {
     setState(() => isDarkMode = !isDarkMode);
   }
 
+  void toggleAllUsersEntries() {
+    _prefs.setBool(
+        WasteagramStateContainer.prefsAllUsersEntries, !allUsersEntries);
+    setState(() => allUsersEntries = !allUsersEntries);
+  }
+
   void toggleCompactWasteListMode() {
     _prefs.setBool(WasteagramStateContainer.prefsCompactWasteListMode,
         !isCompactWasteListMode);
@@ -67,6 +75,7 @@ class WasteagramState extends State<WasteagramStateContainer> {
       wasteagramState: this,
       isDarkMode: isDarkMode,
       isCompactWasteListMode: isCompactWasteListMode,
+      allUsersEntries: allUsersEntries,
       blocProvider: widget.blocProvider,
       child: widget.child,
     );
@@ -78,6 +87,7 @@ class _WasteagramContainer extends InheritedWidget {
   final BlocProvider blocProvider;
   final bool isDarkMode;
   final bool isCompactWasteListMode;
+  final bool allUsersEntries;
 
   _WasteagramContainer({
     Key key,
@@ -85,6 +95,7 @@ class _WasteagramContainer extends InheritedWidget {
     @required Widget child,
     @required this.blocProvider,
     @required this.isDarkMode,
+    @required this.allUsersEntries,
     @required this.isCompactWasteListMode,
   }) : super(key: key, child: child);
 
@@ -92,6 +103,7 @@ class _WasteagramContainer extends InheritedWidget {
   bool updateShouldNotify(_WasteagramContainer oldWidget) {
     return oldWidget.wasteagramState != this.wasteagramState ||
         oldWidget.isDarkMode != this.isDarkMode ||
-        oldWidget.isCompactWasteListMode != this.isCompactWasteListMode;
+        oldWidget.isCompactWasteListMode != this.isCompactWasteListMode ||
+        oldWidget.allUsersEntries != this.allUsersEntries;
   }
 }
