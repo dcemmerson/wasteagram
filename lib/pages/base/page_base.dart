@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
 import 'package:wasteagram/routes/routes.dart';
 import 'package:wasteagram/styles/theme_manager.dart';
+import 'package:wasteagram/widgets/authentication/authenticate.dart';
 import 'package:wasteagram/widgets/drawer/settings_drawer.dart';
 import 'package:wasteagram/widgets/drawer/settings_drawer_icon.dart';
 
-enum PageType { AuthenticationPage, WastePage, WasteDetailPage, WastePostPage }
+enum PageType {
+  AuthenticationPage,
+  WastePage,
+  WasteDetailPage,
+  WastePostPage,
+  AccountPage
+}
 
 abstract class PageBase extends StatelessWidget {
   ThemeManager themeManager;
@@ -16,13 +23,6 @@ abstract class PageBase extends StatelessWidget {
   Widget get body;
 
   PageBase({Key key}) : super(key: key);
-
-  Widget _buildAppBarFoot() {
-    return PreferredSize(
-      preferredSize: Size(0, 20),
-      child: Container(alignment: Alignment.bottomRight, child: Text('abc')),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ abstract class PageBase extends StatelessWidget {
                 ],
               ),
               endDrawer: SettingsDrawer(),
-              body: body,
+              body: Authenticate(child: body),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.endFloat,
               floatingActionButton: Semantics(

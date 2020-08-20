@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:wasteagram/bloc/auth_bloc.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
 import 'package:wasteagram/widgets/authentication/login_button_standalone.dart';
-import 'package:wasteagram/widgets/drawer/login_button.dart';
 import 'package:wasteagram/widgets/waste_list_view/waste_items_list.dart';
 
-class Authentication extends StatefulWidget {
+class Authenticate extends StatefulWidget {
+  final Widget child;
+
+  Authenticate({@required this.child});
+
   @override
-  _LoginState createState() => _LoginState();
+  _AuthenticateState createState() => _AuthenticateState();
 }
 
-class _LoginState extends State<Authentication> {
+class _AuthenticateState extends State<Authenticate> {
   AuthBloc _authBloc;
 
   void didChangeDependencies() {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wasteagram/styles/styles.dart';
 import 'package:wasteagram/widgets/drawer/compact_waste_list_switch.dart';
-import 'package:wasteagram/widgets/drawer/login_button.dart';
+import 'package:wasteagram/widgets/drawer/account_dropdown.dart';
 import 'package:wasteagram/widgets/drawer/theme_switch.dart';
 
 class SettingsDrawer extends StatelessWidget {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wasteagram/bloc/auth_bloc.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
+import 'package:wasteagram/pages/account_page.dart';
+import 'package:wasteagram/routes/routes.dart';
 import 'package:wasteagram/styles/styles.dart';
 
 class LoginButton extends StatefulWidget {
@@ -8,6 +10,9 @@ class LoginButton extends StatefulWidget {
   final loggedOutAnimationDuration = const Duration(milliseconds: 100);
   final _circularProgressIndicator =
       Container(width: 20, height: 20, child: CircularProgressIndicator());
+
+  final _dropdownItemInsets = EdgeInsets.fromLTRB(
+      AppPadding.p4, AppPadding.p0, AppPadding.p0, AppPadding.p0);
 
   @override
   _LoginButtonState createState() => _LoginButtonState();
@@ -48,7 +53,7 @@ class _LoginButtonState extends State<LoginButton>
     _authBloc = WasteagramStateContainer.of(context).blocProvider.authBloc;
   }
 
-  void signIn() async {
+  void _signIn() async {
     setState(() => _waitingForServer = true);
     await _authBloc.signIn(LoginType.Gmail);
     setState(() {
@@ -58,7 +63,7 @@ class _LoginButtonState extends State<LoginButton>
     _loggedInController..reverse();
   }
 
-  void logout() async {
+  void _logout() async {
     setState(() => _waitingForServer = true);
     await _authBloc.logout();
 
@@ -70,7 +75,11 @@ class _LoginButtonState extends State<LoginButton>
     _loggedInController..forward();
   }
 
-  void expandLogoutDropdown() {
+  void _goToAccountSettings() {
+    Routes.accountPage(context);
+  }
+
+  void _expandLogoutDropdown() {
     if (_expanded) {
       _loggedOutController..reverse();
       Future.delayed(widget.loggedInAnimationDuration)
@@ -93,7 +102,7 @@ class _LoginButtonState extends State<LoginButton>
         child: Container(
           alignment: Alignment.topRight,
           child: GestureDetector(
-            onTap: signIn,
+            onTap: _signIn,
             child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
               Padding(
                 padding: EdgeInsets.fromLTRB(
@@ -119,15 +128,8 @@ class _LoginButtonState extends State<LoginButton>
     return Container(
       alignment: Alignment.topRight,
       child: GestureDetector(
-        onTap: expandLogoutDropdown,
+        onTap: _expandLogoutDropdown,
         child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(
-                AppPadding.p0, AppPadding.p0, AppPadding.p4, AppPadding.p0),
-            child: _expanded
-                ? Icon(Icons.arrow_drop_up)
-                : Icon(Icons.arrow_drop_down),
-          ),
           Flexible(
               child: Text(
             email,
@@ -137,42 +139,47 @@ class _LoginButtonState extends State<LoginButton>
                 fontSize: AppFonts.h8,
                 color: Theme.of(context).primaryColorLight),
           )),
+          Padding(
+            padding: EdgeInsets.fromLTRB(
+                AppPadding.p4, AppPadding.p0, AppPadding.p0, AppPadding.p0),
+            child: _expanded
+                ? Icon(Icons.arrow_drop_up)
+                : Icon(Icons.arrow_drop_down),
+          ),
         ]),
       ),
     );
   }
 
-  Widget _logoutButton() {
+  Widget _goToAccountSettingsButton({double dropdownDistance: AppFonts.h4}) {
     return Visibility(
       visible: _expanded,
       child: PositionedTransition(
         rect: RelativeRectTween(
           begin: RelativeRect.fromLTRB(0, 0, 0, 0),
-          end: RelativeRect.fromLTRB(0, AppFonts.h4, 0, 0),
+          end: RelativeRect.fromLTRB(0, dropdownDistance, 0, 0),
         ).animate(CurvedAnimation(
             parent: _loggedOutController, curve: Curves.easeOut)),
         child: Container(
           alignment: Alignment.topRight,
           child: GestureDetector(
-            onTap: _waitingForServer ? null : logout,
+            onTap: _goToAccountSettings,
             child: FadeTransition(
-              // visible: expanded,
               opacity: _fadeAnimation,
               child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(AppPadding.p0, AppPadding.p0,
-                      AppPadding.p4, AppPadding.p0),
-                  child: _waitingForServer
-                      ? widget._circularProgressIndicator
-                      : Icon(Icons.account_circle),
-                ),
                 Text(
-                  'Logout',
+                  'Account',
                   overflow: TextOverflow.fade,
                   softWrap: false,
                   style: TextStyle(
                       fontSize: AppFonts.h8,
                       color: Theme.of(context).primaryColorLight),
+                ),
+                Padding(
+                  padding: widget._dropdownItemInsets,
+                  child: _waitingForServer
+                      ? widget._circularProgressIndicator
+                      : Icon(Icons.account_circle),
                 ),
               ]),
             ),
@@ -182,10 +189,50 @@ class _LoginButtonState extends State<LoginButton>
     );
   }
 
-  Widget _buildLogoutButton(String email) {
+  Widget _logoutButton({double dropdownDistance: 2 * AppFonts.h4}) {
+    return Visibility(
+      visible: _expanded,
+      child: PositionedTransition(
+        rect: RelativeRectTween(
+          begin: RelativeRect.fromLTRB(0, 0, 0, 0),
+          end: RelativeRect.fromLTRB(0, dropdownDistance, 0, 0),
+        ).animate(CurvedAnimation(
+            parent: _loggedOutController, curve: Curves.easeOut)),
+        child: Container(
+          alignment: Alignment.topRight,
+          child: GestureDetector(
+            onTap: _waitingForServer ? null : _logout,
+            child: FadeTransition(
+              // visible: expanded,
+              opacity: _fadeAnimation,
+              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                Text(
+                  'Logout',
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
+                  style: TextStyle(
+                      fontSize: AppFonts.h8,
+                      color: Theme.of(context).primaryColorLight),
+                ),
+                Padding(
+                  padding: widget._dropdownItemInsets,
+                  child: _waitingForServer
+                      ? widget._circularProgressIndicator
+                      : Icon(Icons.arrow_forward),
+                ),
+              ]),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoggedInDropdown(String email) {
     return Stack(fit: StackFit.expand, children: [
       _tappableEmailDropdown(email),
-      _logoutButton(),
+      _goToAccountSettingsButton(dropdownDistance: AppFonts.h4),
+      _logoutButton(dropdownDistance: 2 * AppFonts.h4),
     ]);
   }
 
@@ -204,7 +251,7 @@ class _LoginButtonState extends State<LoginButton>
             if (snapshot.data == null) {
               return _buildLoginButton();
             }
-            return _buildLogoutButton(snapshot.data.email);
+            return _buildLoggedInDropdown(snapshot.data.email);
           case ConnectionState.none:
           default:
             return Text('Connection failed.');

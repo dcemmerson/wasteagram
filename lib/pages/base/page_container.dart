@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wasteagram/pages/authentication_page.dart';
+import 'package:wasteagram/pages/account_page.dart';
 import 'package:wasteagram/pages/base/page_base.dart';
 import 'package:wasteagram/pages/waste_detail_page.dart';
 import 'package:wasteagram/pages/waste_list_page.dart';
@@ -25,8 +25,8 @@ class PageContainer extends PageBase {
       case PageType.WastePostPage:
         page = WastePostPage();
         break;
-      case PageType.AuthenticationPage:
-        page = AuthenticationPage();
+      case PageType.AccountPage:
+        page = AccountPage();
         break;
       default:
         page = WasteListPage();
@@ -44,10 +44,11 @@ class PageContainer extends PageBase {
         return WasteListPage.title;
       case PageType.WasteDetailPage:
         return WasteDetailPage.title;
+      case PageType.AccountPage:
+        return AccountPage.title;
       case PageType.WastePostPage:
-        return WastePostPage.title;
       default:
-        return 'Welcome';
+        return WastePostPage.title;
     }
   }
 

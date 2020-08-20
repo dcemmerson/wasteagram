@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:wasteagram/models/wasted_item.dart';
+import 'package:wasteagram/pages/account_page.dart';
 import 'package:wasteagram/pages/base/page_base.dart';
 import 'package:wasteagram/pages/base/page_container.dart';
-import 'package:wasteagram/pages/authentication_page.dart';
 import 'package:wasteagram/pages/waste_list_page.dart';
 import 'package:wasteagram/pages/waste_detail_page.dart';
 import 'package:wasteagram/pages/waste_post_page.dart';
 
 class Routes {
   static final routes = {
-    AuthenticationPage.route: (context) =>
-        PageContainer(pageType: PageType.AuthenticationPage),
+    AccountPage.route: (context) =>
+        PageContainer(pageType: PageType.AccountPage),
     WasteListPage.route: (context) =>
         PageContainer(pageType: PageType.WastePage),
     WasteDetailPage.route: (context) =>
@@ -30,5 +30,9 @@ class Routes {
 
   static Future addWastedPost(BuildContext context) {
     return Navigator.pushNamed(context, WastePostPage.route);
+  }
+
+  static Future accountPage(BuildContext context) {
+    return Navigator.pushNamed(context, AccountPage.route);
   }
 }
