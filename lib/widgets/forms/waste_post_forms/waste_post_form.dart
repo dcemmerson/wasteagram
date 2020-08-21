@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:wasteagram/bloc/auth_bloc.dart';
@@ -10,7 +9,7 @@ import 'package:wasteagram/bloc/wasteagram_state.dart';
 import 'package:wasteagram/models/wasted_item.dart';
 import 'package:wasteagram/styles/styles.dart';
 import 'package:wasteagram/utils/validate.dart';
-import 'package:wasteagram/widgets/forms/date_time_form_field.dart';
+import 'package:wasteagram/widgets/forms/waste_post_forms/date_time_form_field.dart';
 import 'package:wasteagram/widgets/misc/error_message.dart';
 
 class WastePostForm extends StatefulWidget {

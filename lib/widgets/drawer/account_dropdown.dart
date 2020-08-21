@@ -82,6 +82,9 @@ class _LoginButtonState extends State<LoginButton>
   void _expandLogoutDropdown() {
     if (_expanded) {
       _loggedOutController..reverse();
+
+      //  Wait until animation is over to set _expanded to false, which makes
+      //  icons not visible.
       Future.delayed(widget.loggedInAnimationDuration)
           .then((e) => setState(() => _expanded = !_expanded));
     } else {
@@ -208,7 +211,6 @@ class _LoginButtonState extends State<LoginButton>
           child: GestureDetector(
             onTap: _waitingForServer ? null : _logout,
             child: FadeTransition(
-              // visible: expanded,
               opacity: _fadeAnimation,
               child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                 Text(
