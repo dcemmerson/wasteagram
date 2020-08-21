@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:location/location.dart';
 import 'package:rxdart/rxdart.dart';
@@ -17,7 +16,24 @@ class WasteBloc {
   StreamController<PhotoTaken> photoTakenSink = StreamController<PhotoTaken>();
 
   //Outputs - either going to wasteagram or uses services to Firebase.
-  Stream<List> get wastedItems => _wastedItemsStreamController.stream;
+//  Stream<List> get wastedItems => _wastedItemsStreamController.stream;
+  Stream<List> getWastedItems({allUserEntries: true, uid: ''}) {
+    if (!allUserEntries) {
+      _wasteService
+          .getWastedItemsByUser(uid)
+          .transform(DocumentToItemTransformer())
+          .listen((items) {
+        _wastedItemsStreamController.add(items);
+      });
+    } else {
+      _wasteService.wastedItems
+          .transform(DocumentToItemTransformer())
+          .listen((items) {
+        _wastedItemsStreamController.add(items);
+      });
+    }
+    return _wastedItemsStreamController.stream;
+  }
 
   StreamController<List> _wastedItemsStreamController =
       BehaviorSubject<List>(seedValue: null);

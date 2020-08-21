@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wasteagram/bloc/auth_bloc.dart';
 import 'package:wasteagram/bloc/wasteagram_state.dart';
-import 'package:wasteagram/pages/account_page.dart';
 import 'package:wasteagram/routes/routes.dart';
 import 'package:wasteagram/styles/styles.dart';
 
@@ -30,6 +29,7 @@ class _LoginButtonState extends State<LoginButton>
   bool _expanded = false;
   bool _waitingForServer = false;
   bool _willBeAnimated = false;
+  bool _isLoggedIn = false;
 
   @override
   void initState() {
@@ -88,6 +88,11 @@ class _LoginButtonState extends State<LoginButton>
       _loggedOutController..forward();
       setState(() => _expanded = !_expanded);
     }
+  }
+
+  Widget _loading() {
+    return Container(
+        alignment: Alignment.topRight, child: CircularProgressIndicator());
   }
 
   Widget _buildLoginButton() {
@@ -189,6 +194,45 @@ class _LoginButtonState extends State<LoginButton>
     );
   }
 
+  Widget _switchAccountButton({double dropdownDistance: 2 * AppFonts.h4}) {
+    return Visibility(
+      visible: _expanded,
+      child: PositionedTransition(
+        rect: RelativeRectTween(
+          begin: RelativeRect.fromLTRB(0, 0, 0, 0),
+          end: RelativeRect.fromLTRB(0, dropdownDistance, 0, 0),
+        ).animate(CurvedAnimation(
+            parent: _loggedOutController, curve: Curves.easeOut)),
+        child: Container(
+          alignment: Alignment.topRight,
+          child: GestureDetector(
+            onTap: _waitingForServer ? null : _logout,
+            child: FadeTransition(
+              // visible: expanded,
+              opacity: _fadeAnimation,
+              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                Text(
+                  'Logout',
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
+                  style: TextStyle(
+                      fontSize: AppFonts.h8,
+                      color: Theme.of(context).primaryColorLight),
+                ),
+                Padding(
+                  padding: widget._dropdownItemInsets,
+                  child: _waitingForServer
+                      ? widget._circularProgressIndicator
+                      : Icon(Icons.arrow_forward),
+                ),
+              ]),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _logoutButton({double dropdownDistance: 2 * AppFonts.h4}) {
     return Visibility(
       visible: _expanded,
@@ -238,23 +282,22 @@ class _LoginButtonState extends State<LoginButton>
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: _authBloc.user,
+    return FutureBuilder(
+      future: _authBloc.user.first,
       builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Text('Error occurred with firebase auth');
-        }
+        if (snapshot.hasError) return Text('Something unexpected occurred');
         switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-          // case ConnectionState.done:
-          case ConnectionState.active:
-            if (snapshot.data == null) {
-              return _buildLoginButton();
+          case ConnectionState.done:
+            if (snapshot.hasData && snapshot.data.email != null) {
+              return _buildLoggedInDropdown(snapshot.data.email);
             }
-            return _buildLoggedInDropdown(snapshot.data.email);
+            return _buildLoginButton();
+          case ConnectionState.waiting:
+          case ConnectionState.active:
+            return _buildLoginButton();
           case ConnectionState.none:
           default:
-            return Text('Connection failed.');
+            return _loading();
         }
       },
     );

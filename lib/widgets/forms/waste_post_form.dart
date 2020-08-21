@@ -247,7 +247,7 @@ class _WastePostFormState extends State<WastePostForm> {
   }
 
   Future<bool> isItemUploaded(AddWasteItem addWasteItem) async {
-    await for (var items in _wasteBloc.wastedItems) {
+    await for (var items in _wasteBloc.getWastedItems()) {
       for (WastedItem item in items) {
         if (item.name == addWasteItem.name &&
             item.count == addWasteItem.count &&

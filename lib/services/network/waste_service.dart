@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:location/location.dart';
 
@@ -10,6 +9,13 @@ class WasteService {
     return FirebaseFirestore.instance
         .collection('foodWaste')
         .orderBy('date', descending: true)
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot> getWastedItemsByUser(String uid) {
+    return FirebaseFirestore.instance
+        .collection('foodWaste')
+        .where('uid', isEqualTo: uid)
         .snapshots();
   }
 
